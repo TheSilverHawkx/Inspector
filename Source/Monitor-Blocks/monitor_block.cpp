@@ -1,4 +1,5 @@
 #include "monitor_block.h"
+#include <iostream>
 
 MonitorBlock::MonitorBlock(const char* id,
                             const char* name,
@@ -11,9 +12,10 @@ MonitorBlock::MonitorBlock(const char* id,
     this->parameters = parameters;
     this->output_type = output_type;
 };
+MonitorBlock::~MonitorBlock() {};
 
 void MonitorBlock::run_block() {
-    if (this->execute(&this->output)) {
+    if (this->execute()) {
         this->execution_status = 0;
     }
     else
@@ -21,4 +23,13 @@ void MonitorBlock::run_block() {
         this->execution_status = 1;
     }
     
+    std::cout << "execution code: " << this->execution_status << std::endl;
 };
+
+bool MonitorBlock::execute() {
+    return false;
+};
+
+std::string MonitorBlock::print_output() {
+    return this->output;
+}

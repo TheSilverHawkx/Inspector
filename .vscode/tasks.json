@@ -7,11 +7,15 @@
 			"command": "O:\\Programs\\mingw-w64\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-Wall",
-                "-std=c++14",
+				"-std=c++14",
+				"-I",
+                "${workspaceFolder}\\include",
 				"-g",
-				"${file}",
+				"${workspaceFolder}\\Source\\Server\\main.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\*.cpp",
 				"-o",
-				"${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
+				"${workspaceFolder}\\bin\\main.exe",
 			],
 			"options": {
 				"cwd": "O:\\Programs\\mingw-w64\\mingw64\\bin"
