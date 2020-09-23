@@ -1,7 +1,8 @@
 #include "script_block.h"
 #include <stdio.h>
 #include <array>
-
+#include <filesystem>
+#include <fstream>
 
 ScriptMonitorBlock::ScriptMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
@@ -15,6 +16,12 @@ bool ScriptMonitorBlock::execute() {
         const std::string& script_code = parsed_parameters["script_code"].GetString();
         const std::string& script_params = parsed_parameters["script_parameters"].GetString();
         const std::string& script_language = parsed_parameters["script_language"].GetString();
+
+        const std::string file_name = "workdir/" + this->id + ".py";
+        std::ofstream file;
+        file.open(file_name);
+        file << script_code << std::endl;
+        file.close();
 
         #ifdef _WIN32
         
@@ -30,11 +37,12 @@ bool ScriptMonitorBlock::execute() {
             }
             
         #else
+
             if (script_language == "bash") {
                 command_output = ::popen(this->parameters.c_str(),"r");
             }
             else if(script_language.rfind("python") == 0) {
-                std::string run_line = script_language + " -c &\"" + script_code + "\" " + script_params;
+                std::string run_line = script_language + " " + file_name + " " + script_params;
                 command_output = ::popen(run_line.c_str(),"r");
             }
             else {
