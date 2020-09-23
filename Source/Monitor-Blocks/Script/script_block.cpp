@@ -18,11 +18,12 @@ bool ScriptMonitorBlock::execute() {
 
         #ifdef _WIN32
         
-            if (script_language.GetString() == "powershell") {
+            if (script_language == "powershell") {
 
             }
-            else if (script_language.GetString() == "batch") {
-                command_output = ::_popen(script_code.GetString() + " " + script_params.GetString(),"r");
+            else if (script_language == "batch") {
+                std::string run_line = script_code + " " + script_params;
+                command_output = ::_popen(run_line.c_str(),"r");
             }
             else {
                 throw new std::runtime_error("unknown script language");
@@ -61,7 +62,7 @@ bool ScriptMonitorBlock::execute() {
     }
 };
 
-void ScriptMonitorBlock::handle_exceptions(const std::exception& e) {
+void ScriptMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
     this->output = "Script execution failure: " + caught_exception;
 };
