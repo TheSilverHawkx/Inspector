@@ -2,7 +2,11 @@
 #define _MONITOR_BLOCK_COMMAND_BLOCK_
 
 #include <string>
-#include "..\monitor_block.h"
+#ifdef _WIN32
+    #include "..\monitor_block.h"
+#else
+    #include "../monitor_block.h"
+#endif
 
 class CommandMonitorBlock : public MonitorBlock {
     private:

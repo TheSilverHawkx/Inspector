@@ -2,7 +2,11 @@
 #define _MMONITOR_BLOCK_
 
 #include <string>
-#include "..\..\include\rapidjson\document.h"
+#ifdef _WIN32
+    #include "..\..\include\rapidjson\document.h"
+#else
+    #include "../../include/rapidjson/document.h"
+#endif
 
 enum _block_type {trigger,collector,condition,operation,composite};
 enum _output_type {Trigger,JSON,CSV,Alert,PerformanceData,UpdateRequest,ClearText};

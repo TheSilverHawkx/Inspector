@@ -28,5 +28,32 @@
 				"isDefault": true
 			}
 		}
+		{
+			"type": "shell",
+			"label": "C/C++: g++.exe build active file- Linux",
+			"command": "/usr/bin/g++",
+			"args": [
+				"-Wall",
+				"-std=c++14",
+				"-I",
+                "${workspaceFolder}/include",
+				"-g",
+				"${workspaceFolder}/Source/Server/main.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Command/*.cpp",
+				"-o",
+				"${workspaceFolder}/bin/main.exe",
+			],
+			"options": {
+				"cwd": "/usr/bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
 	]
 }

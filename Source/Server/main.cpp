@@ -1,4 +1,8 @@
-#include "..\Monitor-Blocks\Command\command_block.h"
+#ifdef _WIN32
+    #include "..\Monitor-Blocks\Command\command_block.h"
+#else
+    #include "../Monitor-Blocks/Command/command_block.h"
+#endif
 #include <string>
 #include "iostream"
 
