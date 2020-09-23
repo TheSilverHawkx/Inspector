@@ -33,3 +33,13 @@ bool MonitorBlock::execute() {
 std::string MonitorBlock::print_output() {
     return this->output;
 }
+
+rapidjson::Document MonitorBlock::parse_parameters() {
+    rapidjson::Document doc;
+    doc.Parse(this->parameters.c_str());
+    return doc;
+}
+
+void MonitorBlock::handle_exceptions(const std::exception e) {
+    
+};
