@@ -12,9 +12,9 @@ bool ScriptMonitorBlock::execute() {
     try {
         FILE *command_output = NULL;
         rapidjson::Document parsed_parameters = this->parse_parameters();
-        rapidjson::Value& script_code = parsed_parameters["script_code"];
-        rapidjson::Value& script_params = parsed_parameters["script_parameters"];
-        rapidjson::Value& script_language = parsed_parameters["script_language"];
+        const std::string& script_code = parsed_parameters["script_code"].GetString();
+        const std::string& script_params = parsed_parameters["script_parameters"].GetString();
+        const std::string& script_language = parsed_parameters["script_language"].GetString();
 
         #ifdef _WIN32
         
@@ -29,11 +29,21 @@ bool ScriptMonitorBlock::execute() {
             }
             
         #else
-            command_output = ::popen(this->parameters.c_str(),"r");
+            if (script_language == "bash") {
+                command_output = ::popen(this->parameters.c_str(),"r");
+            }
+            else if(script_language.rfind("python") == 0) {
+                std::string run_line = script_language + " -c &\"" + script_code + "\" " + script_params;
+                command_output = ::popen(run_line.c_str(),"r");
+            }
+            else {
+                throw new std::runtime_error("unknown script language");
+            }
+            
         #endif
         
         if (command_output == nullptr) {
-            throw new std::runtime_error("Cannot open shell pipe");
+            throw new std::runtime_error("Cannot open script pipe");
         }
 
         std::array<char,256> buffer;

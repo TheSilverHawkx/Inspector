@@ -1,5 +1,5 @@
 #ifndef _MONITOR_BLOCK_
-#define _MMONITOR_BLOCK_
+#define _MONITOR_BLOCK_
 
 #include <string>
 #ifdef _WIN32
