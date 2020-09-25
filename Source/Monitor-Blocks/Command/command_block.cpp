@@ -1,4 +1,4 @@
-#include "command.h"
+#include "command_block.h"
 #include <stdio.h>
 #include <array>
 
@@ -32,10 +32,14 @@ bool CommandMonitorBlock::execute() {
         return true;
     }
     catch (const std::exception& e) {
-        std::string caught_exception = e.what();
-        this->output = "Command execution failure: " + caught_exception;
+        this->handle_exceptions(e);
         return false;
     }
 
 
+};
+
+void CommandMonitorBlock::handle_exceptions(const std::exception e) {
+    std::string caught_exception = e.what();
+    this->output = "Command execution failure: " + caught_exception;
 };

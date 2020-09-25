@@ -7,18 +7,47 @@
 			"command": "O:\\Programs\\mingw-w64\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-Wall",
-				"-std=c++14",
+				"-std=c++17",
 				"-I",
                 "${workspaceFolder}\\include",
 				"-g",
 				"${workspaceFolder}\\Source\\Server\\main.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Script\\*.cpp",
 				"-o",
 				"${workspaceFolder}\\bin\\main.exe",
 			],
 			"options": {
 				"cwd": "O:\\Programs\\mingw-w64\\mingw64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "C/C++: g++.exe build active file- Linux",
+			"command": "/usr/bin/g++",
+			"args": [
+				"-Wall",
+				"-std=c++17",
+				"-I",
+                "${workspaceFolder}/include",
+				"-g",
+				"${workspaceFolder}/Source/Server/main.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Command/*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Script/*.cpp",
+				"-o",
+				"${workspaceFolder}/bin/main.exe",
+			],
+			"options": {
+				"cwd": "/usr/bin"
 			},
 			"problemMatcher": [
 				"$gcc"
