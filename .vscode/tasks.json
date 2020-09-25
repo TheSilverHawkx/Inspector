@@ -51,6 +51,9 @@
 			"problemMatcher": [
 				"$msCompile"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}\\compile folder"
+			},
 			"group": {
 				"kind": "build",
 				"isDefault": true
