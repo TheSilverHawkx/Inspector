@@ -2,11 +2,8 @@
 #define _MONITOR_BLOCK_SCRIPT_BLOCK_
 
 #include <string>
-#ifdef _WIN32
-    #include "..\monitor_block.h"
-#else
-    #include "../monitor_block.h"
-#endif
+#include "..\monitor_block.h"
+
 
 class ScriptMonitorBlock : public MonitorBlock {
     private:
