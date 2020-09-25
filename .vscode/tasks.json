@@ -1,7 +1,34 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-		
+		{
+			"type": "shell",
+			"label": "C/C++: g++.exe build active file- Linux",
+			"command": "/usr/bin/g++",
+			"args": [
+				"-Wall",
+				"-std=c++17",
+				"-I",
+				"${workspaceFolder}/include",
+				"-g",
+				"${workspaceFolder}/Source/Server/main.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Command/linux-*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Script/linux-*.cpp",
+				"-o",
+				"${workspaceFolder}/bin/main"
+			],
+			"options": {
+				"cwd": "/usr/bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
 		{
 			"type": "shell",
 			"label": "C/C++: cl.exe build active file",
@@ -18,6 +45,9 @@
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\windows-*.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Script\\windows-*.cpp"
 			],
+			"options": {
+				"cwd": "compile folder"
+			},
 			"problemMatcher": [
 				"$msCompile"
 			],
