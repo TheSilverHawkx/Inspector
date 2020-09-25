@@ -53,6 +53,30 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"type": "shell",
+			"label": "C/C++: cl.exe build active file",
+			"command": "cl.exe",
+			"args": [
+				"/I\\${workspaceFolder}\\include",
+				"/Zi",
+				"/std:c++17",
+				"/EHsc",
+				"/Fe:",
+				"${workspaceFolder}\\bin\\main.exe",
+				"${workspaceFolder}\\Source\\Server\\main.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Script\\windows-*.cpp"
+			],
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

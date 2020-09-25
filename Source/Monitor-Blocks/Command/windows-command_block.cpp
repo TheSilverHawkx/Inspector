@@ -1,7 +1,7 @@
 #include "windows-command_block.h"
 #include <stdio.h>
 #include <array>
-
+#include <stdexcept>
 
 CommandMonitorBlock::CommandMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
@@ -21,7 +21,7 @@ bool CommandMonitorBlock::execute() {
 
         std::array<char,256> buffer;
 
-        while (not std::feof(command_output)) {
+        while (!std::feof(command_output)) {
             auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
             this->output.append(buffer.data(),bytes);
         }

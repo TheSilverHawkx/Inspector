@@ -20,9 +20,9 @@ bool ScriptMonitorBlock::execute() {
         const std::string& script_language = parsed_parameters["script_language"].GetString();
 
         const std::string folder_name = "workdir/" + this->id;
-        if (not std::filesystem::exists(folder_name.c_str()))
+        if (!std::filesystem::exists(folder_name.c_str()))
         {
-            if (not std::filesystem::create_directory(folder_name.c_str())){
+            if (!std::filesystem::create_directory(folder_name.c_str())){
                 throw std::runtime_error("Could not create work folder");
             }
         }
@@ -53,12 +53,12 @@ bool ScriptMonitorBlock::execute() {
 
         std::array<char,256> buffer;
 
-        while (not std::feof(command_output)) {
+        while (! std::feof(command_output)) {
             auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
             this->output.append(buffer.data(),bytes);
         }
 
-        if (not std::filesystem::remove_all(folder_name.c_str()))
+        if (! std::filesystem::remove_all(folder_name.c_str()))
         {
             throw std::runtime_error("Could not delete work folder");
         }

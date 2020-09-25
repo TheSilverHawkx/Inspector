@@ -2,6 +2,7 @@
     #include "..\Monitor-Blocks\Command\windows-command_block.h"
     #include "..\Monitor-Blocks\Script\windows-script_block.h"
     #include "..\..\include\rapidjson\document.h"
+    #include <stdexcept>
 #else
     #include "../../include/rapidjson/document.h"
     #include "../Monitor-Blocks/Command/linux-command_block.h"
