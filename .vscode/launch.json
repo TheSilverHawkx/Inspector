@@ -15,50 +15,6 @@
             "environment": [],
             "externalConsole": false,
             "preLaunchTask": "C/C++: cl.exe build active file"
-        },
-        
-        {
-            "name": "g++.exe - Build and debug active file- Linux",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/bin/main.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "C/C++: g++.exe build active file- Linux"
-        },
-        {
-            "name": "g++.exe - Build and debug active file",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}\\bin\\main.exe",
-            "args": [           ],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "O:\\Programs\\mingw-w64\\mingw64\\bin\\gdb.exe",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "C/C++: g++.exe build active file"
-        },
-
+        }
     ]
 }
