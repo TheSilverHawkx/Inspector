@@ -2,3 +2,4 @@
 compile folder
 workdir
 bin
+.vscode/tasks.json
