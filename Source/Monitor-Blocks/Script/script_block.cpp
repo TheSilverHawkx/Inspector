@@ -17,7 +17,16 @@ bool ScriptMonitorBlock::execute() {
         const std::string& script_params = parsed_parameters["script_parameters"].GetString();
         const std::string& script_language = parsed_parameters["script_language"].GetString();
 
-        const std::string file_name = "workdir/" + this->id + ".py";
+        const std::string folder_name = "workdir/" + this->id;
+        if (not std::filesystem::exists(folder_name.c_str()))
+        {
+            if (not std::filesystem::create_directory(folder_name.c_str())){
+                throw std::runtime_error("Could not create work folder");
+            }
+        }
+        
+        
+        const std::string file_name = folder_name + "/script_file";
         std::ofstream file;
         file.open(file_name);
         file << script_code << std::endl;
@@ -29,30 +38,31 @@ bool ScriptMonitorBlock::execute() {
 
             }
             else if (script_language == "batch") {
-                std::string run_line = script_code + " " + script_params;
-                command_output = ::_popen(run_line.c_str(),"r");
+                std::string cmd = script_code + " " + script_params;
+                command_output = ::_popen(cmd.c_str(),"r");
             }
             else {
-                throw new std::runtime_error("unknown script language");
+                throw std::runtime_error("unknown script language");
             }
             
         #else
 
             if (script_language == "bash") {
-                command_output = ::popen(this->parameters.c_str(),"r");
+                std::string cmd = "/bin/bash " + file_name + " " + script_params;
+                command_output = ::popen(cmd.c_str(),"r");
             }
             else if(script_language.rfind("python") == 0) {
-                std::string run_line = script_language + " " + file_name + " " + script_params;
-                command_output = ::popen(run_line.c_str(),"r");
+                std::string cmd = script_language + " " + file_name + " " + script_params;
+                command_output = ::popen(cmd.c_str(),"r");
             }
             else {
-                throw new std::runtime_error("unknown script language");
+                throw std::runtime_error("unknown script language");
             }
             
         #endif
         
         if (command_output == nullptr) {
-            throw new std::runtime_error("Cannot open script pipe");
+            throw std::runtime_error("Cannot open script pipe");
         }
 
         std::array<char,256> buffer;
@@ -62,6 +72,10 @@ bool ScriptMonitorBlock::execute() {
             this->output.append(buffer.data(),bytes);
         }
 
+        if (not std::filesystem::remove_all(folder_name.c_str()))
+        {
+            throw std::runtime_error("Could not delete work folder");
+        }
         return true;
     }
     catch (const std::exception& e){
