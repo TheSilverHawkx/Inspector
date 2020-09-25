@@ -1,8 +1,10 @@
-#include "script_block.h"
+#include "windows-script_block.h"
 #include <stdio.h>
 #include <array>
 #include <filesystem>
 #include <fstream>
+
+// ** File not working since <filesystem> is bugged as of mingw-w64 8.x ** //
 
 ScriptMonitorBlock::ScriptMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
@@ -32,34 +34,18 @@ bool ScriptMonitorBlock::execute() {
         file << script_code << std::endl;
         file.close();
 
-        #ifdef _WIN32
         
-            if (script_language == "powershell") {
+        if (script_language == "powershell") {
 
-            }
-            else if (script_language == "batch") {
-                std::string cmd = script_code + " " + script_params;
-                command_output = ::_popen(cmd.c_str(),"r");
-            }
-            else {
-                throw std::runtime_error("unknown script language");
-            }
-            
-        #else
+        }
+        else if (script_language == "batch") {
+            std::string cmd = script_code + " " + script_params;
+            command_output = ::_popen(cmd.c_str(),"r");
+        }
+        else {
+            throw std::runtime_error("unknown script language");
+        }
 
-            if (script_language == "bash") {
-                std::string cmd = "/bin/bash " + file_name + " " + script_params;
-                command_output = ::popen(cmd.c_str(),"r");
-            }
-            else if(script_language.rfind("python") == 0) {
-                std::string cmd = script_language + " " + file_name + " " + script_params;
-                command_output = ::popen(cmd.c_str(),"r");
-            }
-            else {
-                throw std::runtime_error("unknown script language");
-            }
-            
-        #endif
         
         if (command_output == nullptr) {
             throw std::runtime_error("Cannot open script pipe");

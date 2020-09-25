@@ -9,14 +9,14 @@
 				"-Wall",
 				"-std=c++17",
 				"-I",
-                "${workspaceFolder}\\include",
+				"${workspaceFolder}\\include",
 				"-g",
 				"${workspaceFolder}\\Source\\Server\\main.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\Script\\*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Script\\windows-*.cpp",
 				"-o",
-				"${workspaceFolder}\\bin\\main.exe",
+				"${workspaceFolder}\\bin\\main.exe"
 			],
 			"options": {
 				"cwd": "O:\\Programs\\mingw-w64\\mingw64\\bin"
@@ -24,10 +24,7 @@
 			"problemMatcher": [
 				"$gcc"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"group": "build"
 		},
 		{
 			"type": "shell",
@@ -37,14 +34,14 @@
 				"-Wall",
 				"-std=c++17",
 				"-I",
-                "${workspaceFolder}/include",
+				"${workspaceFolder}/include",
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
-				"${workspaceFolder}/Source/Monitor-Blocks/Command/*.cpp",
-				"${workspaceFolder}/Source/Monitor-Blocks/Script/*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Command/linux-*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Script/linux-*.cpp",
 				"-o",
-				"${workspaceFolder}/bin/main.exe",
+				"${workspaceFolder}/bin/main"
 			],
 			"options": {
 				"cwd": "/usr/bin"

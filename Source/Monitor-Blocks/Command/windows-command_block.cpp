@@ -1,4 +1,4 @@
-#include "command_block.h"
+#include "windows-command_block.h"
 #include <stdio.h>
 #include <array>
 
@@ -12,11 +12,8 @@ bool CommandMonitorBlock::execute() {
     FILE *command_output = NULL;
 
     try {
-        #ifdef _WIN32
-            command_output = ::_popen(this->parameters.c_str(),"r");
-        #else
-            command_output = ::popen(this->parameters.c_str(),"r");
-        #endif
+        command_output = ::_popen(this->parameters.c_str(),"r");
+
         
         if (command_output == nullptr) {
             throw new std::runtime_error("Cannot open shell pipe");
