@@ -1,3 +1,10 @@
 .vscode/*
 .vscode/tasks.json
 .vscode/launch.json
+compile_folder
+compile folder/main.obj
+compile folder/monitor_block.obj
+compile folder/vc140.pdb
+compile folder/windows-command_block.obj
+compile folder/windows-script_block.obj
+workdir
