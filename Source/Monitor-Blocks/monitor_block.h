@@ -2,6 +2,7 @@
 #define _MONITOR_BLOCK_
 
 #include <string>
+
 #ifdef _WIN32
     #include "..\..\include\rapidjson\document.h"
 #else

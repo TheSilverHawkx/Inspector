@@ -1,10 +1,16 @@
 #include "windows-script_block.h"
+#include "..\..\utilities\windows-command_executor.h"
 #include <stdio.h>
 #include <array>
 #include <filesystem>
 #include <fstream>
+#include <stdio.h>
+#include <windows.h>
+#include <tchar.h>
+#include <tuple>
+#include <vector>
+#include <regex>
 
-// ** File not working since <filesystem> is bugged as of mingw-w64 8.x ** //
 
 ScriptMonitorBlock::ScriptMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
@@ -13,55 +19,57 @@ ScriptMonitorBlock::~ScriptMonitorBlock() {};
 
 bool ScriptMonitorBlock::execute() {
     try {
-        FILE *command_output = NULL;
+        // Parse Script Parameters
         rapidjson::Document parsed_parameters = this->parse_parameters();
         const std::string& script_code = parsed_parameters["script_code"].GetString();
         const std::string& script_params = parsed_parameters["script_parameters"].GetString();
         const std::string& script_language = parsed_parameters["script_language"].GetString();
 
-        const std::string folder_name = "workdir/" + this->id;
-        if (!std::filesystem::exists(folder_name.c_str()))
+        // Declare Script-specific variables
+        int timeout_in_seconds = 10;
+        std::string cmd {};
+        const std::string work_directory_path = std::filesystem::current_path().string() + "\\workdir\\" + this->id;
+        std::string script_file_path = work_directory_path + "\\script_file";
+        std::ofstream file {};
+
+        // Create work directory if needed
+        if (!std::filesystem::exists(work_directory_path.c_str()))
         {
-            if (!std::filesystem::create_directory(folder_name.c_str())){
+            if (!std::filesystem::create_directory(work_directory_path.c_str())){
                 throw std::runtime_error("Could not create work folder");
             }
         }
-        
-        
-        const std::string file_name = folder_name + "/script_file";
-        std::ofstream file;
-        file.open(file_name);
-        file << script_code << std::endl;
-        file.close();
 
-        
-        if (script_language == "powershell") {
-
+        // Handle script language
+        if (script_language == "batch") {
+            script_file_path +=".bat";
+            cmd = "cmd /c \"" + script_file_path + "\" " + script_params;
         }
-        else if (script_language == "batch") {
-            std::string cmd = script_code + " " + script_params;
-            command_output = ::_popen(cmd.c_str(),"r");
+        else if (script_language == "powershell") {
+            script_file_path +=".ps1";
+            cmd = "powershell -noprofile -ExecutionPolicy Bypass -file \"" + script_file_path + "\" " + script_params;
         }
         else {
             throw std::runtime_error("unknown script language");
-        }
+        } 
 
+        // Create script file
+        file.open(script_file_path);
+        file << script_code << std::endl;
+        file.close();
         
-        if (command_output == nullptr) {
-            throw std::runtime_error("Cannot open script pipe");
-        }
+        auto [command_output,rc]= execute_commnad(cmd,timeout_in_seconds);
+        this->output = format_output(command_output,script_language);
 
-        std::array<char,256> buffer;
-
-        while (! std::feof(command_output)) {
-            auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
-            this->output.append(buffer.data(),bytes);
-        }
-
-        if (! std::filesystem::remove_all(folder_name.c_str()))
+        // Delete Work Folder
+        if (! std::filesystem::remove_all(work_directory_path.c_str()))
         {
             throw std::runtime_error("Could not delete work folder");
         }
+
+        // Format output according to this->_output_type
+        
+        
         return true;
     }
     catch (const std::exception& e){
@@ -73,4 +81,31 @@ bool ScriptMonitorBlock::execute() {
 void ScriptMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
     this->output = "Script execution failure: " + caught_exception;
+};
+
+std::string ScriptMonitorBlock::format_output(const std::string& raw_output,const std::string& language) {
+    std::string parsed_output {};
+    if (language == "batch") {
+        std::string script_name = raw_output.substr(raw_output.find("\r\n",0)+2,raw_output.find(">",0)-1);
+
+        std::regex delimiter{"\r\n"};
+        std::vector<std::string> lines {
+            std::sregex_token_iterator(raw_output.begin(),raw_output.end(),delimiter,-1), {}
+        };
+
+        for (auto& line:lines) {
+            if (!line.empty() & std::string::npos == line.find(script_name,0))
+            {
+                parsed_output += line + "\n";
+            }
+        }
+                
+        return parsed_output.substr(0,parsed_output.length()-1) ;
+    }
+    else if (language == "powershell") {
+        return raw_output.substr(0,raw_output.length()-1);
+    }
+    else {
+        return "";
+    }
 };
