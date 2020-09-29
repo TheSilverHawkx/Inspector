@@ -59,7 +59,6 @@ bool ScriptMonitorBlock::execute() {
         file.close();
         
         auto [command_output,rc]= execute_commnad(cmd,timeout_in_seconds);
-        this->output = format_output(command_output,script_language);
 
         // Delete Work Folder
         if (! std::filesystem::remove_all(work_directory_path.c_str()))
@@ -68,7 +67,7 @@ bool ScriptMonitorBlock::execute() {
         }
 
         // Format output according to this->_output_type
-        
+        this->output = this->simplify_output(command_output,script_language);
         
         return true;
     }
@@ -83,7 +82,7 @@ void ScriptMonitorBlock::handle_exceptions(const std::exception e) {
     this->output = "Script execution failure: " + caught_exception;
 };
 
-std::string ScriptMonitorBlock::format_output(const std::string& raw_output,const std::string& language) {
+std::string ScriptMonitorBlock::simplify_output(const std::string& raw_output,const std::string& language) {
     std::string parsed_output {};
     if (language == "batch") {
         std::string script_name = raw_output.substr(raw_output.find("\r\n",0)+2,raw_output.find(">",0)-1);
