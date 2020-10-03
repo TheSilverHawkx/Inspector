@@ -64,6 +64,6 @@
         "regex": "cpp",
         "shared_mutex": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.errorSquiggles": "Enabled",
     "C_Cpp.loggingLevel": "Debug"
 }

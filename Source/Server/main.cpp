@@ -31,7 +31,7 @@ int main() {
     //const char* json = "{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
     //ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
     //\\\\root\\cimvs2
-    const char* json = "{\"namespace\":\"\\\\\\\\root\\\\cimv2\",\"query\":\"select * from win32_service\",\"target\":\"localhost\"}";
+    const char* json = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service\",\"target\":\"localhost\"}";
     WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
     block->run_block();
 
