@@ -13,6 +13,7 @@
 #include <comdef.h>
 #include <codecvt>
 #include <vector>
+#include <locale>
 
 #pragma comment(lib, "wbemuuid.lib")
 

@@ -89,7 +89,10 @@ bool WMIMonitorBlock::execute() {
             if(SUCCEEDED(SafeArrayAccessData(sfArray,(void HUGEP**)&pbstr)))
             {
                 if (wmi_result.size() == 0) {
-                    std::vector<std::string> property_row {pbstr,pbstr +  (lend - lstart + 1)};
+                    std::vector<std::string> property_row {};
+                    for (i = lstart; i < lend; i++) {
+                        property_row.push_back(converter.to_bytes(pbstr[i]));
+                    }
                     wmi_result.push_back(property_row);
                 }
 
@@ -101,6 +104,7 @@ bool WMIMonitorBlock::execute() {
                     wmiobjectrow->Get(pbstr[i], 0, &vtProp, &pType, 0);
                     if (vtProp.vt== VT_NULL)
                     {
+                        wmi_row.push_back("");
                         continue;
                     }
                     
