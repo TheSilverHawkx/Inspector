@@ -23,11 +23,7 @@
 			},
 			"problemMatcher": [
 				"$gcc"
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			]
 		},
 		{
 			"type": "shell",
@@ -44,11 +40,9 @@
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\windows-*.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Script\\windows-*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\WMI\\windows-*.cpp"
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\WMI\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\utilities\\windows-*.cpp"
 			],
-			"options": {
-				"cwd": "compile folder"
-			},
 			"problemMatcher": [
 				"$msCompile"
 			],
