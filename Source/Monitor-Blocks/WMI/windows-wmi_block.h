@@ -11,6 +11,8 @@
 #include <WbemIdl.h>
 #include <objbase.h>
 #include <comdef.h>
+#include <codecvt>
+#include <vector>
 
 #pragma comment(lib, "wbemuuid.lib")
 
