@@ -4,10 +4,12 @@
 #include <string>
 #include <regex>
 #include "..\monitor_block.h"
-
+#include "..\output_data_structure.h"
 
 class ScriptMonitorBlock : public MonitorBlock {
     private:
+        MonitorBlockOutput<std::string> *output  = new MonitorBlockOutput<std::string>;;
+
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
         std::string simplify_output(const std::string&,const std::string&);

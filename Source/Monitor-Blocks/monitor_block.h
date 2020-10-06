@@ -5,6 +5,7 @@
 
 #ifdef _WIN32
     #include "..\..\include\rapidjson\document.h"
+    #include "..\Monitor-Blocks\output_data_structure.h"
 #else
     #include "../../include/rapidjson/document.h"
 #endif
@@ -20,7 +21,6 @@ class MonitorBlock {
         std::string parameters;
         _output_type output_type;
         int execution_status {-1};
-        std::string output{""};
 
 
         rapidjson::Document parse_parameters();
@@ -30,12 +30,9 @@ class MonitorBlock {
 
     public:
         MonitorBlock(const char* id,const char* name,_block_type type,const char* parameters,_output_type output_type);
-        ~MonitorBlock();
+        ~MonitorBlock(); 
 
         void run_block();
-
-        std::string print_output();
-        
 };
 
 #endif

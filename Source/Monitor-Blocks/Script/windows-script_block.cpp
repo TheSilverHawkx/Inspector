@@ -15,7 +15,9 @@
 ScriptMonitorBlock::ScriptMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
 
-ScriptMonitorBlock::~ScriptMonitorBlock() {};
+ScriptMonitorBlock::~ScriptMonitorBlock() {
+    delete this->output;
+};
 
 bool ScriptMonitorBlock::execute() {
     try {
@@ -67,7 +69,8 @@ bool ScriptMonitorBlock::execute() {
         }
 
         // Format output according to this->_output_type
-        this->output = this->simplify_output(command_output,script_language);
+        *(this->output->data) = this->simplify_output(command_output,script_language);
+        this->output->return_code = rc;
         
         return true;
     }
@@ -79,7 +82,8 @@ bool ScriptMonitorBlock::execute() {
 
 void ScriptMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
-    this->output = "Script execution failure: " + caught_exception;
+    *(this->output->data) = "Script execution failure: " + caught_exception;
+    this->output->return_code = -1;
 };
 
 std::string ScriptMonitorBlock::simplify_output(const std::string& raw_output,const std::string& language) {
