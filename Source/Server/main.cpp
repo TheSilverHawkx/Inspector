@@ -34,12 +34,12 @@ int main() {
     // Script Batch
     //const char* json = "{\"script_language\":\"batch\",\"script_parameters\":\"1 2 3\",\"script_code\":\"echo bat1\\necho bat2\"}";
     // WMI
-    const char* json = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
+    //const char* json = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
 
-
-    //CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
+    std::string script = "/bin/bash -c \"echo hello\"";
+    CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
     //ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
-    WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
+    //WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
     block->run_block();
 }
 

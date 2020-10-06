@@ -7,7 +7,9 @@
 ScriptMonitorBlock::ScriptMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
 
-ScriptMonitorBlock::~ScriptMonitorBlock() {};
+ScriptMonitorBlock::~ScriptMonitorBlock() {
+    delete this->output;
+};
 
 bool ScriptMonitorBlock::execute() {
     try {
@@ -52,7 +54,7 @@ bool ScriptMonitorBlock::execute() {
 
         while (not std::feof(command_output)) {
             auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
-            this->output.append(buffer.data(),bytes);
+            //this->output.append(buffer.data(),bytes);
         }
 
         if (not std::filesystem::remove_all(folder_name.c_str()))
@@ -69,5 +71,6 @@ bool ScriptMonitorBlock::execute() {
 
 void ScriptMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
-    this->output = "Script execution failure: " + caught_exception;
+    *(this->output->data) = "Script execution failure: " + caught_exception;
+    this->output->return_code = -1;
 };
