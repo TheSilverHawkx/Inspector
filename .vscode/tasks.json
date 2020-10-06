@@ -15,6 +15,7 @@
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Command/linux-*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Script/linux-*.cpp",
+				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"-o",
 				"${workspaceFolder}/bin/main"
 			],
