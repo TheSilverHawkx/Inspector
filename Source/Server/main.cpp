@@ -17,6 +17,8 @@
 #include "iostream"
 #include <filesystem>
 #include <tuple>
+
+#include "../utilities/linux-command_executor.h"
 namespace fs = std::filesystem;
 
 
@@ -36,11 +38,16 @@ int main() {
     // WMI
     //const char* json = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
 
-    std::string script = "/bin/bash -c \"echo hello\"";
-    CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
+    //std::string script = "/bin/bash -c \"echo hello\"";
+    //CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
     //ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
     //WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
-    block->run_block();
+    //block->run_block();
+
+    auto [out,err,rc] = execute_commnad("/bin/bash -c \"echo hello \"");
+    std::cout << "out: " << out << std::endl;
+    std::cout << "err: " << err << std::endl;
+    std::cout << "rc: " << rc << std::endl;
 }
 
 

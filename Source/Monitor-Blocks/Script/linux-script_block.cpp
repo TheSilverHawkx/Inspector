@@ -26,13 +26,14 @@ bool ScriptMonitorBlock::execute() {
                 throw std::runtime_error("Could not create work folder");
             }
         }
-        
-        
         const std::string file_name = folder_name + "/script_file";
         std::ofstream file;
         file.open(file_name);
         file << script_code << std::endl;
         file.close();
+
+        std::string cmd = script_language + " " + file_name + " " + script_params;
+        auto [script_stdout,script_stderr,rc] = execute_commnad(cmd.c_str());
 
         if (script_language == "bash") {
             std::string cmd = "/bin/bash " + file_name + " " + script_params;
@@ -54,7 +55,7 @@ bool ScriptMonitorBlock::execute() {
 
         while (not std::feof(command_output)) {
             auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
-            //this->output.append(buffer.data(),bytes);
+            //*(this->output->data).append(buffer.data(),bytes);
         }
 
         if (not std::filesystem::remove_all(folder_name.c_str()))
