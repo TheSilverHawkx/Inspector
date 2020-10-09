@@ -6,7 +6,9 @@
 CommandMonitorBlock::CommandMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
 
-CommandMonitorBlock::~CommandMonitorBlock() {};
+CommandMonitorBlock::~CommandMonitorBlock() {
+    delete this->output;
+};
 
 bool CommandMonitorBlock::execute() {
     FILE *command_output = NULL;
@@ -22,7 +24,7 @@ bool CommandMonitorBlock::execute() {
 
         while (not std::feof(command_output)) {
             auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
-            this->output.append(buffer.data(),bytes);
+            //*(this->output->data).append(buffer.data(),bytes);
         }
 
         return true;
@@ -37,5 +39,6 @@ bool CommandMonitorBlock::execute() {
 
 void CommandMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
-    this->output = "Command execution failure: " + caught_exception;
+    *(this->output->data) = "Command execution failure: " + caught_exception;
+    this->output->return_code = -1;
 };

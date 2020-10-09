@@ -3,7 +3,9 @@
 WMIMonitorBlock::WMIMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
 
-WMIMonitorBlock::~WMIMonitorBlock() {};
+WMIMonitorBlock::~WMIMonitorBlock() {
+    delete this->output;
+};
 
 bool WMIMonitorBlock::execute() {
     try {
@@ -130,7 +132,8 @@ bool WMIMonitorBlock::execute() {
         CoUninitialize();
 
         
-        //this->output = wmi_result.;
+        this->output->data = &wmi_result;
+        this->output->return_code = 0;
         return true;
     }
     catch (const std::exception& e){
@@ -141,5 +144,9 @@ bool WMIMonitorBlock::execute() {
 
 void WMIMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
-    this->output = "WMI execution failure: " + caught_exception;
+    std::vector<std::vector<std::string>> error_vector;
+    std::vector<std::string> error_line {"WMI execution failure: " + caught_exception};
+    error_vector.push_back(error_line);
+    this->output->data = &error_vector;
+    this->output->return_code = -1;
 };

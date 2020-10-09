@@ -1,8 +1,8 @@
 #ifndef _MONITOR_BLOCK_WMI_BLOCK_
 #define _MONITOR_BLOCK_WMI_BLOCK_
 
-
 #include "..\monitor_block.h"
+#include "..\output_data_structure.h"
 #include <string>
 #include <cstring>
 #include <stdexcept>
@@ -19,6 +19,8 @@
 
 class WMIMonitorBlock : public MonitorBlock {
     private:
+        MonitorBlockOutput<std::vector<std::vector<std::string>>> *output = new MonitorBlockOutput<std::vector<std::vector<std::string>>>;
+
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
     public:

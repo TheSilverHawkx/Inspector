@@ -30,10 +30,6 @@ bool MonitorBlock::execute() {
     return false;
 };
 
-std::string MonitorBlock::print_output() {
-    return this->output;
-}
-
 rapidjson::Document MonitorBlock::parse_parameters() {
     rapidjson::Document doc;
     doc.Parse(this->parameters.c_str());

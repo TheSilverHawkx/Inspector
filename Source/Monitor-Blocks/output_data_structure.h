@@ -4,5 +4,10 @@ template<typename T>
 struct MonitorBlockOutput
 {
     int return_code {};
-    T *data {};
+    T *data = new T;
+
+    ~MonitorBlockOutput() {
+        delete data;
+    }
 };
+

@@ -23,7 +23,7 @@ bool CommandMonitorBlock::execute() {
 
         while (!std::feof(command_output)) {
             auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
-            this->output.append(buffer.data(),bytes);
+            //*(this->output->data).append(buffer.data(),bytes);
         }
 
         return true;
@@ -38,5 +38,6 @@ bool CommandMonitorBlock::execute() {
 
 void CommandMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
-    this->output = "Command execution failure: " + caught_exception;
+    *(this->output->data) = "Command execution failure: " + caught_exception;
+    this->output->return_code = -1;
 };

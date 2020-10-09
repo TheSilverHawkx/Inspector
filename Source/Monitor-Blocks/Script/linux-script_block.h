@@ -2,10 +2,20 @@
 #define _MONITOR_BLOCK_SCRIPT_BLOCK_
 
 #include <string>
+#include <utility>
+#include <stdio.h>
+#include <filesystem>
+#include <fstream>
+#include <map>
+
 #include "../monitor_block.h"
+#include "../../utilities/linux-command_executor.h"
+#include "../output_data_structure.h"
 
 class ScriptMonitorBlock : public MonitorBlock {
     private:
+        MonitorBlockOutput<std::map<std::string,std::string>> *output  = new MonitorBlockOutput<std::map<std::string,std::string>>;
+        
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
     public:

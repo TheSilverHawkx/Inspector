@@ -15,6 +15,7 @@
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Command/linux-*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Script/linux-*.cpp",
+				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"-o",
 				"${workspaceFolder}/bin/main"
 			],
@@ -23,7 +24,11 @@
 			},
 			"problemMatcher": [
 				"$gcc"
-			]
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		},
 		{
 			"type": "shell",
@@ -48,10 +53,6 @@
 			],
 			"options": {
 				"cwd": "${workspaceFolder}\\compile folder"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
 			}
 		}
 	]
