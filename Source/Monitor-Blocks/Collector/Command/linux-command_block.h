@@ -1,13 +1,11 @@
 #ifndef _MONITOR_BLOCK_COMMAND_BLOCK_
 #define _MONITOR_BLOCK_COMMAND_BLOCK_
 
-#include <string>
+#include "../monitor_block.h"
+#include "../../utilities/linux-command_executor.h"
 #include <map>
 #include <stdio.h>
 #include <filesystem>
-#include "../monitor_block.h"
-#include "../output_data_structure.h"
-#include "../../utilities/linux-command_executor.h"
 
 class CommandMonitorBlock : public MonitorBlock {
     private:

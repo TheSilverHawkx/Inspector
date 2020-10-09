@@ -13,8 +13,8 @@
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
-				"${workspaceFolder}/Source/Monitor-Blocks/Command/linux-*.cpp",
-				"${workspaceFolder}/Source/Monitor-Blocks/Script/linux-*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Command/linux-*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Script/linux-*.cpp",
 				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"-o",
 				"${workspaceFolder}/bin/main"
@@ -24,11 +24,7 @@
 			},
 			"problemMatcher": [
 				"$gcc"
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			]
 		},
 		{
 			"type": "shell",
@@ -43,9 +39,9 @@
 				"${workspaceFolder}\\bin\\main.exe",
 				"${workspaceFolder}\\Source\\Server\\main.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\Command\\windows-*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\Script\\windows-*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\WMI\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Command\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Script\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\WMI\\windows-*.cpp",
 				"${workspaceFolder}\\Source\\utilities\\windows-*.cpp"
 			],
 			"problemMatcher": [
@@ -53,6 +49,10 @@
 			],
 			"options": {
 				"cwd": "${workspaceFolder}\\compile folder"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
 			}
 		}
 	]

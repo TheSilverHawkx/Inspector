@@ -5,9 +5,10 @@
 
 #ifdef _WIN32
     #include "..\..\include\rapidjson\document.h"
-    #include "..\Monitor-Blocks\output_data_structure.h"
+    #include "output_data_structure.h"
 #else
     #include "../../include/rapidjson/document.h"
+    #include "output_data_structure.h"
 #endif
 
 enum _block_type {trigger,collector,condition,operation,composite};

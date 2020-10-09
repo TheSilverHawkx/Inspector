@@ -1,7 +1,5 @@
 #include "windows-command_block.h"
-#include <stdio.h>
-#include <array>
-#include <stdexcept>
+
 
 CommandMonitorBlock::CommandMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};

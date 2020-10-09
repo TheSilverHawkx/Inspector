@@ -1,5 +1,4 @@
 #include "monitor_block.h"
-#include <iostream>
 
 MonitorBlock::MonitorBlock(const char* id,
                             const char* name,
@@ -22,8 +21,6 @@ void MonitorBlock::run_block() {
     {
         this->execution_status = 1;
     }
-    
-    std::cout << "execution code: " << this->execution_status << std::endl;
 };
 
 bool MonitorBlock::execute() {

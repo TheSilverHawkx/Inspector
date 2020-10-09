@@ -1,9 +1,8 @@
 #ifndef _MONITOR_BLOCK_WMI_BLOCK_
 #define _MONITOR_BLOCK_WMI_BLOCK_
 
-#include "..\monitor_block.h"
-#include "..\output_data_structure.h"
-#include <string>
+#include "..\..\monitor_block.h"
+#include "..\..\output_data_structure.h"
 #include <cstring>
 #include <stdexcept>
 #include <Windows.h>

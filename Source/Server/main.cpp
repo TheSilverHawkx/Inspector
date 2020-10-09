@@ -1,15 +1,15 @@
 #ifdef _WIN32
-    #include "..\Monitor-Blocks\Command\windows-command_block.h"
-    #include "..\Monitor-Blocks\Script\windows-script_block.h"
-    #include "..\Monitor-Blocks\WMI\windows-wmi_block.h"
+    #include "..\Monitor-Blocks\Collector\Command\windows-command_block.h"
+    #include "..\Monitor-Blocks\Collector\Script\windows-script_block.h"
+    #include "..\Monitor-Blocks\Collector\WMI\windows-wmi_block.h"
     #include "..\..\include\rapidjson\document.h"
     #include "..\..\include\rapidjson\filereadstream.h"
     #include <cstdio>
     #include <stdexcept>
 #else
     #include "../../include/rapidjson/document.h"
-    #include "../Monitor-Blocks/Command/linux-command_block.h"
-    #include "../Monitor-Blocks/Script/linux-script_block.h"
+    #include "../Monitor-Blocks/Collector/Command/linux-command_block.h"
+    #include "../Monitor-Blocks/Collector/Script/linux-script_block.h"
 #endif
 
 #include <string>

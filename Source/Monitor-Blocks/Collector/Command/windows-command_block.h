@@ -1,9 +1,10 @@
 #ifndef _MONITOR_BLOCK_COMMAND_BLOCK_
 #define _MONITOR_BLOCK_COMMAND_BLOCK_
 
-#include <string>
-#include "..\monitor_block.h"
-#include "..\output_data_structure.h"
+#include "..\..\monitor_block.h"
+#include <stdio.h>
+#include <array>
+#include <stdexcept>
 
 class CommandMonitorBlock : public MonitorBlock {
     private:
