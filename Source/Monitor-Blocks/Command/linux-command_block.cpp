@@ -1,44 +1,51 @@
 #include "linux-command_block.h"
-#include <stdio.h>
-#include <array>
-
 
 CommandMonitorBlock::CommandMonitorBlock(const char* id,const char* name,const char* parameters) :
-MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
+MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {
+    this->output->data->insert(std::make_pair("stdout",""));
+    this->output->data->insert(std::make_pair("stderr",""));
+};
 
 CommandMonitorBlock::~CommandMonitorBlock() {
     delete this->output;
 };
 
 bool CommandMonitorBlock::execute() {
-    FILE *command_output = NULL;
-
     try {
-        command_output = ::popen(this->parameters.c_str(),"r");
+        // Define work directory
+        const std::string folder_name = "workdir/" + this->id;
+
+        // Create Work Folder if doesn't exist
+        if (!std::filesystem::exists(folder_name.c_str()))
+        {
+            if (!std::filesystem::create_directory(folder_name.c_str())){
+                throw std::runtime_error("Could not create work folder");
+            }
+        }
+
+        std::string cmd = "cd " + folder_name + "; " + this->parameters;
+        auto [script_stdout,script_stderr,rc] = execute_commnad(cmd.c_str());
         
-        if (command_output == nullptr) {
-            throw new std::runtime_error("Cannot open shell pipe");
+        // Delete Work Folder
+        if (!std::filesystem::remove_all(folder_name.c_str()))
+        {
+            throw std::runtime_error("Could not delete work folder");
         }
 
-        std::array<char,256> buffer;
-
-        while (not std::feof(command_output)) {
-            auto bytes = std::fread(buffer.data(),1,buffer.size(),command_output);
-            //*(this->output->data).append(buffer.data(),bytes);
-        }
-
+        // Save output to output structure
+        this->output->data->insert_or_assign("stdout",script_stdout);
+        this->output->data->insert_or_assign("stderr",script_stderr);
+        this->output->return_code = rc;
         return true;
     }
     catch (const std::exception& e) {
         this->handle_exceptions(e);
         return false;
     }
-
-
 };
 
 void CommandMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
-    *(this->output->data) = "Command execution failure: " + caught_exception;
+    this->output->data->insert_or_assign("stderr","Script execution failure: " + caught_exception);
     this->output->return_code = -1;
 };
