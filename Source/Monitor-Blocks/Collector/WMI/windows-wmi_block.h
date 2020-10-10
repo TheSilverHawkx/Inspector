@@ -1,14 +1,11 @@
-#ifndef _MONITOR_BLOCK_WMI_BLOCK_
-#define _MONITOR_BLOCK_WMI_BLOCK_
+#pragma once
 
 #include "..\..\monitor_block.h"
 #include "..\..\output_data_structure.h"
-#include <cstring>
-#include <stdexcept>
+
 #include <Windows.h>
 #include <comutil.h>
 #include <WbemIdl.h>
-#include <objbase.h>
 #include <comdef.h>
 #include <codecvt>
 #include <vector>
@@ -26,5 +23,3 @@ class WMIMonitorBlock : public MonitorBlock {
         WMIMonitorBlock(const char*,const char*,const char*);
         ~WMIMonitorBlock();
 };
-
-#endif

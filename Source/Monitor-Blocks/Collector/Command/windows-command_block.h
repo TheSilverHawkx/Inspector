@@ -4,7 +4,7 @@
 #include "..\..\monitor_block.h"
 #include <stdio.h>
 #include <array>
-#include <stdexcept>
+// Needs rework
 
 class CommandMonitorBlock : public MonitorBlock {
     private:

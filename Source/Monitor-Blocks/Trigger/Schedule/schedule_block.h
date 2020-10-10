@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 #ifdef _WIN32
     #include "..\..\monitor_block.h"
     #include "..\..\output_data_structure.h"
@@ -7,9 +9,6 @@
     #include "../../monitor_block.h"
     #include "../../output_data_structure.h"
 #endif
-
-#include <chrono>
-#include <stdexcept>
 
 class ScheduleMonitorBlock : public MonitorBlock {
     private:
