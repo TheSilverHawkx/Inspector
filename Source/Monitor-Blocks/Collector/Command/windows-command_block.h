@@ -1,8 +1,11 @@
 #pragma once
 
 #include "..\..\monitor_block.h"
+#include "..\..\..\utilities\windows-command_executor.h"
 #include <stdio.h>
-#include <array>
+#include <tuple>
+#include <filesystem>
+#include <iostream>
 // Needs rework
 
 class CommandMonitorBlock : public MonitorBlock {
@@ -14,4 +17,5 @@ class CommandMonitorBlock : public MonitorBlock {
     public:
         CommandMonitorBlock(const char* id,const char* name,const char* parameters);
         ~CommandMonitorBlock();
+
 };

@@ -24,7 +24,7 @@ bool CommandMonitorBlock::execute() {
         }
 
         std::string cmd = "cd " + folder_name + "; " + this->parameters;
-        auto [script_stdout,script_stderr,rc] = execute_commnad(cmd.c_str());
+        auto [script_stdout,script_stderr,rc] = inspector::execute_commnad(cmd.c_str());
         
         // Delete Work Folder
         if (!std::filesystem::remove_all(folder_name.c_str()))

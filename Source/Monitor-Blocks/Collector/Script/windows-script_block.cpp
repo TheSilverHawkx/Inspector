@@ -49,7 +49,7 @@ bool ScriptMonitorBlock::execute() {
         file << script_code << std::endl;
         file.close();
         
-        auto [command_output,rc]= execute_commnad(cmd,timeout_in_seconds);
+        auto [command_output,rc]= inspector::execute_command(cmd,timeout_in_seconds,work_directory_path);
 
         // Delete Work Folder
         if (! std::filesystem::remove_all(work_directory_path.c_str()))
@@ -58,7 +58,7 @@ bool ScriptMonitorBlock::execute() {
         }
 
         // Format output according to this->_output_type
-        *(this->output->data) = this->simplify_output(command_output,script_language);
+        *(this->output->data) = inspector::simplify_output(command_output,script_language);
         this->output->return_code = rc;
         
         return true;
@@ -73,31 +73,4 @@ void ScriptMonitorBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
     *(this->output->data) = "Script execution failure: " + caught_exception;
     this->output->return_code = -1;
-};
-
-std::string ScriptMonitorBlock::simplify_output(const std::string& raw_output,const std::string& language) {
-    std::string parsed_output {};
-    if (language == "batch") {
-        std::string script_name = raw_output.substr(raw_output.find("\r\n",0)+2,raw_output.find(">",0)-1);
-
-        std::regex delimiter{"\r\n"};
-        std::vector<std::string> lines {
-            std::sregex_token_iterator(raw_output.begin(),raw_output.end(),delimiter,-1), {}
-        };
-
-        for (auto& line:lines) {
-            if (!line.empty() & std::string::npos == line.find(script_name,0))
-            {
-                parsed_output += line + "\n";
-            }
-        }
-                
-        return parsed_output.substr(0,parsed_output.length()-1) ;
-    }
-    else if (language == "powershell") {
-        return raw_output.substr(0,raw_output.length()-1);
-    }
-    else {
-        return "";
-    }
 };
