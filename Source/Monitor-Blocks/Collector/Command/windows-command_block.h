@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include <tuple>
 #include <filesystem>
-#include <iostream>
-// Needs rework
 
 class CommandMonitorBlock : public MonitorBlock {
     private:

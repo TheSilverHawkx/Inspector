@@ -1,5 +1,4 @@
 #include "windows-command_block.h"
-#include "..\..\..\utilities\windows-command_executor.h"
 
 CommandMonitorBlock::CommandMonitorBlock(const char* id,const char* name,const char* parameters) :
 MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
