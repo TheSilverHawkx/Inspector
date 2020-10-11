@@ -1,6 +1,6 @@
 #include "windows-command_executor.h"
 
-std::tuple<std::string,int> execute_commnad(std::string& command,int& timeout_seconds) {
+std::tuple<std::string,int> inspector::execute_command(std::string& command,int& timeout_seconds,const std::string& work_directory) {
     HANDLE parent_stdout_handle = nullptr;
     HANDLE child_stdout_handle = nullptr;
     STARTUPINFO si = {sizeof(STARTUPINFO)};
@@ -37,7 +37,7 @@ std::tuple<std::string,int> execute_commnad(std::string& command,int& timeout_se
     si.dwFlags |= STARTF_USESTDHANDLES;
 
     // Create Process
-    if (!CreateProcess(NULL,LPSTR(command.c_str()),NULL,NULL,TRUE,0,NULL,NULL,&si,&pi)) {
+    if (!CreateProcess(NULL,LPSTR(command.c_str()),NULL,NULL,TRUE,0,NULL,LPCSTR(work_directory.c_str()),&si,&pi)) {
         subprocess_output = "Failed to create process. Error: " + std::to_string(GetLastError());
         CloseHandle(child_stdout_handle);
         CloseHandle(parent_stdout_handle);
@@ -82,3 +82,29 @@ std::tuple<std::string,int> execute_commnad(std::string& command,int& timeout_se
     return {subprocess_output,return_code};
 };
 
+std::string inspector::simplify_output(const std::string& raw_output,const std::string& language) {
+    std::string parsed_output {};
+    if (language == "batch") {
+        std::string script_name = raw_output.substr(raw_output.find("\r\n",0)+2,raw_output.find(">",0)-1);
+
+        std::regex delimiter{"\r\n"};
+        std::vector<std::string> lines {
+            std::sregex_token_iterator(raw_output.begin(),raw_output.end(),delimiter,-1), {}
+        };
+
+        for (auto& line:lines) {
+            if (!line.empty() & std::string::npos == line.find(script_name,0))
+            {
+                parsed_output += line + "\n";
+            }
+        }
+                
+        return parsed_output.substr(0,parsed_output.length()-1) ;
+    }
+    else if (language == "powershell") {
+        return raw_output.substr(0,raw_output.length()-1);
+    }
+    else {
+        return "";
+    }
+};

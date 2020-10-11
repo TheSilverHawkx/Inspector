@@ -5,5 +5,7 @@
 #include <tuple>
 #include <sys/wait.h>
 
-std::tuple<std::string,std::string,int>  execute_commnad(const char* command);		
+namespace inspector {
+    std::tuple<std::string,std::string,int>  execute_commnad(const char* command);		
+}
 				

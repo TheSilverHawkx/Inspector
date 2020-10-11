@@ -81,7 +81,8 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xutility": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "xtree": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
     "C_Cpp.loggingLevel": "Debug"
