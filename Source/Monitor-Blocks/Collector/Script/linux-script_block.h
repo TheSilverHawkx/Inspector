@@ -1,13 +1,11 @@
-#ifndef _MONITOR_BLOCK_SCRIPT_BLOCK_
-#define _MONITOR_BLOCK_SCRIPT_BLOCK_
+#pragma once
 
-#include <stdio.h>
 #include <filesystem>
 #include <fstream>
 #include <map>
 
 #include "../../monitor_block.h"
-#include "../../utilities/linux-command_executor.h"
+#include "../../../utilities/linux-command_executor.h"
 
 class ScriptMonitorBlock : public MonitorBlock {
     private:
@@ -19,5 +17,3 @@ class ScriptMonitorBlock : public MonitorBlock {
         ScriptMonitorBlock(const char* id,const char* name,const char* parameters);
         ~ScriptMonitorBlock();
 };
-
-#endif

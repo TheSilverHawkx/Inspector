@@ -1,14 +1,10 @@
-#ifndef _MONITOR_BLOCK_SCRIPT_BLOCK_
-#define _MONITOR_BLOCK_SCRIPT_BLOCK_
+#pragma once
 
 #include "..\..\monitor_block.h"
 #include "..\..\..\utilities\windows-command_executor.h"
-#include <stdio.h>
+
 #include <filesystem>
 #include <fstream>
-#include <stdio.h>
-#include <windows.h>
-#include <tchar.h>
 #include <tuple>
 #include <vector>
 #include <regex>
@@ -26,5 +22,3 @@ class ScriptMonitorBlock : public MonitorBlock {
 
         
 };
-
-#endif

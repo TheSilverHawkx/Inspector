@@ -1,7 +1,7 @@
-#ifndef _MONITOR_BLOCK_
-#define _MONITOR_BLOCK_
+#pragma once
 
 #include <string>
+#include <stdexcept>
 
 #ifdef _WIN32
     #include "..\..\include\rapidjson\document.h"
@@ -35,5 +35,3 @@ class MonitorBlock {
 
         void run_block();
 };
-
-#endif
