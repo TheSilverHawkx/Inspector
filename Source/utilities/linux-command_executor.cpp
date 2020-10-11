@@ -62,7 +62,9 @@ std::tuple<std::string,std::string,int>  execute_commnad(const char* command) {
                 {
                     stdout_string.append(buf);
                 }
-                memset(buf,0,sizeof buf);
+
+                buf[0] = 0;
+                //memset(buf,0,sizeof buf);
 
                 while (read(stderr_pipe[0],&buf,sizeof(buf)))
                 {

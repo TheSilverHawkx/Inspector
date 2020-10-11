@@ -1,5 +1,4 @@
-#ifndef _MONITOR_BLOCK_COMMAND_BLOCK_
-#define _MONITOR_BLOCK_COMMAND_BLOCK_
+#pragma once
 
 #include "..\..\monitor_block.h"
 #include <stdio.h>
@@ -16,5 +15,3 @@ class CommandMonitorBlock : public MonitorBlock {
         CommandMonitorBlock(const char* id,const char* name,const char* parameters);
         ~CommandMonitorBlock();
 };
-
-#endif

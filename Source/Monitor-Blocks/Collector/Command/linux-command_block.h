@@ -1,10 +1,9 @@
-#ifndef _MONITOR_BLOCK_COMMAND_BLOCK_
-#define _MONITOR_BLOCK_COMMAND_BLOCK_
+#pragma once
 
-#include "../monitor_block.h"
-#include "../../utilities/linux-command_executor.h"
+#include "../../monitor_block.h"
+#include "../../../utilities/linux-command_executor.h"
 #include <map>
-#include <stdio.h>
+//#include <stdio.h>
 #include <filesystem>
 
 class CommandMonitorBlock : public MonitorBlock {
@@ -17,5 +16,3 @@ class CommandMonitorBlock : public MonitorBlock {
         CommandMonitorBlock(const char*,const char*,const char*);
         ~CommandMonitorBlock();
 };
-
-#endif
