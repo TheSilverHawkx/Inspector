@@ -38,11 +38,7 @@
 				"/Fe:",
 				"${workspaceFolder}\\bin\\main.exe",
 				"${workspaceFolder}\\Source\\Server\\main.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Command\\windows-*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Script\\windows-*.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\WMI\\windows-*.cpp",
-				"${workspaceFolder}\\Source\\utilities\\windows-*.cpp"
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp"
 			],
 			"problemMatcher": [
 				"$msCompile"

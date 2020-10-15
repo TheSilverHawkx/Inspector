@@ -36,11 +36,11 @@ int main() {
     //const char* json = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
 
     //std::string script = "/bin/bash -c \"echo hello;echo tea\"";
-    std::string script = "sc query pluglay";
-    CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
+    //std::string script = "sc query pluglay";
+    //CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
     //ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
     //WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
-    block->run_block();
+    //block->run_block();
 }
 
 

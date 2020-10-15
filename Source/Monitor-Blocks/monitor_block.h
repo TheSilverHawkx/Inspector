@@ -19,19 +19,18 @@ class MonitorBlock {
         std::string id;
         std::string name;
         _block_type block_type;
-        std::string parameters;
         _output_type output_type;
-        int execution_status {-1};
+        int execution_status;
 
 
-        rapidjson::Document parse_parameters();
+        //rapidjson::Document parse_parameters();
 
-        virtual bool execute();
-        virtual void handle_exceptions(const std::exception e);
+        virtual bool execute() = 0;
+        virtual void handle_exceptions(const std::exception e) = 0;
 
     public:
-        MonitorBlock(const char* id,const char* name,_block_type type,const char* parameters,_output_type output_type);
-        ~MonitorBlock(); 
+        //MonitorBlock(const char* id,const char* name,_block_type type,const char* parameters,_output_type output_type);
+        virtual ~MonitorBlock() =0; 
 
         void run_block();
 };

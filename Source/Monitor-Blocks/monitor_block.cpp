@@ -1,6 +1,6 @@
 #include "monitor_block.h"
 
-MonitorBlock::MonitorBlock(const char* id,
+/*MonitorBlock::MonitorBlock(const char* id,
                             const char* name,
                             _block_type type,
                             const char* parameters,
@@ -10,8 +10,8 @@ MonitorBlock::MonitorBlock(const char* id,
     this->block_type = type;
     this->parameters = parameters;
     this->output_type = output_type;
-};
-MonitorBlock::~MonitorBlock() {};
+};*/
+//MonitorBlock::~MonitorBlock() {};
 
 void MonitorBlock::run_block() {
     if (this->execute()) {
@@ -22,7 +22,7 @@ void MonitorBlock::run_block() {
         this->execution_status = 1;
     }
 };
-
+/*
 bool MonitorBlock::execute() {
     return false;
 };
@@ -35,4 +35,4 @@ rapidjson::Document MonitorBlock::parse_parameters() {
 
 void MonitorBlock::handle_exceptions(const std::exception e) {
     
-};
+};*/
