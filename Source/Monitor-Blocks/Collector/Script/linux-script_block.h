@@ -5,7 +5,7 @@
 #include <map>
 
 #include "../collector_monitor_block.h"
-#include "../../../utilitie s/linux-command_executor.h"
+#include "../../../utilities/linux-command_executor.h"
 
 class ScriptMonitorBlock : public CollectorMonitorBlock {
     private:

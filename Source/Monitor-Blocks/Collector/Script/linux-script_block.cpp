@@ -40,7 +40,7 @@ bool ScriptMonitorBlock::execute() {
 
         // Run script using execute_command from linux-command_executor.h
         std::string cmd = script_language + " " + file_name + " " + script_params;
-        auto [script_stdout,script_stderr,rc] = inspector::execute_commnad(cmd.c_str());
+        auto [script_stdout,script_stderr,rc] = inspector::execute_command(cmd.c_str());
 
 
         // Delete Work Folder

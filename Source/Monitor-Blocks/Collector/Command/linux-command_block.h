@@ -1,12 +1,11 @@
 #pragma once
 
-#include "../../monitor_block.h"
+#include "../collector_monitor_block.h"
 #include "../../../utilities/linux-command_executor.h"
 #include <map>
-//#include <stdio.h>
 #include <filesystem>
 
-class CommandMonitorBlock : public MonitorBlock {
+class CommandMonitorBlock : public CollectorMonitorBlock {
     private:
         MonitorBlockOutput<std::map<std::string,std::string>> *output  = new MonitorBlockOutput<std::map<std::string,std::string>>;
 

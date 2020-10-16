@@ -12,11 +12,11 @@
 				"${workspaceFolder}/include",
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
+				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/collector_monitor_block.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Command/linux-*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Script/linux-*.cpp",
-				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"-o",
 				"${workspaceFolder}/bin/main"
 			],
@@ -25,7 +25,11 @@
 			},
 			"problemMatcher": [
 				"$gcc"
-			]
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		},
 		{
 			"type": "shell",
@@ -51,10 +55,6 @@
 			],
 			"options": {
 				"cwd": "${workspaceFolder}\\compile folder"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
 			}
 		}
 	]

@@ -1,6 +1,6 @@
 #include "linux-command_executor.h"
 
-std::tuple<std::string,std::string,int>  execute_commnad(const char* command) {
+std::tuple<std::string,std::string,int>  inspector::execute_command(const char* command) {
     int stdout_pipe[2];
     int stderr_pipe[2];
 
@@ -64,7 +64,6 @@ std::tuple<std::string,std::string,int>  execute_commnad(const char* command) {
                 }
 
                 buf[0] = 0;
-                //memset(buf,0,sizeof buf);
 
                 while (read(stderr_pipe[0],&buf,sizeof(buf)))
                 {
@@ -74,7 +73,6 @@ std::tuple<std::string,std::string,int>  execute_commnad(const char* command) {
                 
                 close (stdout_pipe[0]);
                 close (stderr_pipe[0]);
-                printf("exited, status=%d\n",WEXITSTATUS(status));
             }
 
         } while (!WIFEXITED(status));
