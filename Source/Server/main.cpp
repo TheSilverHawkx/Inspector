@@ -5,13 +5,13 @@
     #include "..\..\include\rapidjson\document.h"
     #include "..\..\include\rapidjson\filereadstream.h"
     #include <cstdio>
-    #include <stdexcept>
 #else
     #include "../../include/rapidjson/document.h"
     #include "../Monitor-Blocks/Collector/Command/linux-command_block.h"
     #include "../Monitor-Blocks/Collector/Script/linux-script_block.h"
 #endif
 
+#include <stdexcept>
 #include <string>
 #include "iostream"
 #include <filesystem>
@@ -36,11 +36,11 @@ int main() {
     //const char* json = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
 
     //std::string script = "/bin/bash -c \"echo hello;echo tea\"";
-    //std::string script = "sc query pluglay";
-    //CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
+    const char * script = "{\"commandline\":\"sc query pluglay\"}";
+    CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script);
     //ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
     //WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
-    //block->run_block();
+    block->run_block();
 }
 
 

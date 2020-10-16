@@ -1,7 +1,7 @@
 #include "windows-command_block.h"
 
 CommandMonitorBlock::CommandMonitorBlock(const char* id,const char* name,const char* parameters) :
-MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
+CollectorMonitorBlock(id,name,parameters,_output_type::ClearText) {};
 
 CommandMonitorBlock::~CommandMonitorBlock() {
     delete this->output;
@@ -10,7 +10,7 @@ CommandMonitorBlock::~CommandMonitorBlock() {
 bool CommandMonitorBlock::execute() {
     try {
         const std::string work_directory_path = std::filesystem::current_path().string() + "\\workdir\\" + this->id;
-        std::string cmd { "cmd /c \"" + this->parameters + "\""};
+        std::string cmd { "cmd /c \"" + (std::string)this->parameters["commandline"].GetString() + "\""};
         int timeout_in_seconds = 10;
 
         // Create Work Folder if doesn't exist

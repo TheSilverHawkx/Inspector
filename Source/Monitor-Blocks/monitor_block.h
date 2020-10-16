@@ -12,7 +12,7 @@
 #endif
 
 enum _block_type {trigger,collector,condition,operation,composite};
-enum _output_type {Trigger,JSON,CSV,Alert,PerformanceData,UpdateRequest,ClearText};
+enum _output_type {Trigger,JSON,Table,Alert,PerformanceData,UpdateRequest,ClearText};
 
 class MonitorBlock {
     protected:
@@ -22,15 +22,9 @@ class MonitorBlock {
         _output_type output_type;
         int execution_status;
 
-
-        //rapidjson::Document parse_parameters();
-
         virtual bool execute() = 0;
         virtual void handle_exceptions(const std::exception e) = 0;
 
     public:
-        //MonitorBlock(const char* id,const char* name,_block_type type,const char* parameters,_output_type output_type);
-        virtual ~MonitorBlock() =0; 
-
         void run_block();
 };

@@ -13,6 +13,7 @@
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Collector/collector_monitor_block.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Command/linux-*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Script/linux-*.cpp",
 				"${workspaceFolder}/Source/utilities/linux-*.cpp",
@@ -38,7 +39,12 @@
 				"/Fe:",
 				"${workspaceFolder}\\bin\\main.exe",
 				"${workspaceFolder}\\Source\\Server\\main.cpp",
-				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp"
+				"${workspaceFolder}\\Source\\utilities\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\collector_monitor_block.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\WMI\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Script\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Command\\windows-*.cpp"
 			],
 			"problemMatcher": [
 				"$msCompile"

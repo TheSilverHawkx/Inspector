@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\..\monitor_block.h"
+#include "..\collector_monitor_block.h"
 #include "..\..\..\utilities\windows-command_executor.h"
 
 #include <filesystem>
@@ -9,13 +9,12 @@
 #include <vector>
 #include <regex>
 
-class ScriptMonitorBlock : public MonitorBlock {
+class ScriptMonitorBlock : public CollectorMonitorBlock {
     private:
         MonitorBlockOutput<std::string> *output  = new MonitorBlockOutput<std::string>;;
 
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
-        std::string simplify_output(const std::string&,const std::string&);
     public:
         ScriptMonitorBlock(const char* id,const char* name,const char* parameters);
         ~ScriptMonitorBlock();
