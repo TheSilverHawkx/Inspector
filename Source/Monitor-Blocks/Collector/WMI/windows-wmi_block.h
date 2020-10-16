@@ -1,7 +1,6 @@
 #pragma once
 
-#include "..\..\monitor_block.h"
-#include "..\..\output_data_structure.h"
+#include "..\collector_monitor_block.h"
 
 #include <Windows.h>
 #include <comutil.h>
@@ -13,7 +12,7 @@
 
 #pragma comment(lib, "wbemuuid.lib")
 
-class WMIMonitorBlock : public MonitorBlock {
+class WMIMonitorBlock : public CollectorMonitorBlock {
     private:
         MonitorBlockOutput<std::vector<std::vector<std::string>>> *output = new MonitorBlockOutput<std::vector<std::vector<std::string>>>;
 

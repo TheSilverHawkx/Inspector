@@ -1,7 +1,7 @@
 #include "windows-wmi_block.h"
 
 WMIMonitorBlock::WMIMonitorBlock(const char* id,const char* name,const char* parameters) :
-MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
+CollectorMonitorBlock(id,name,parameters,_output_type::Table) {};
 
 WMIMonitorBlock::~WMIMonitorBlock() {
     delete this->output;
@@ -9,10 +9,9 @@ WMIMonitorBlock::~WMIMonitorBlock() {
 
 bool WMIMonitorBlock::execute() {
     try {
-        rapidjson::Document parsed_parameters = this->parse_parameters();
-        const std::string& wmi_namespace = parsed_parameters["namespace"].GetString();
-        const std::string& wmi_query = parsed_parameters["query"].GetString();
-        const std::string& wmi_target = parsed_parameters["target"].GetString();
+        const std::string& wmi_namespace = this->parameters["namespace"].GetString();
+        const std::string& wmi_query = this->parameters["query"].GetString();
+        const std::string& wmi_target = this->parameters["target"].GetString();
         
         if (FAILED(CoInitializeEx(0,COINIT_MULTITHREADED)))
         {

@@ -12,26 +12,19 @@
 #endif
 
 enum _block_type {trigger,collector,condition,operation,composite};
-enum _output_type {Trigger,JSON,CSV,Alert,PerformanceData,UpdateRequest,ClearText};
+enum _output_type {Trigger,JSON,Table,Alert,PerformanceData,UpdateRequest,ClearText};
 
 class MonitorBlock {
     protected:
         std::string id;
         std::string name;
         _block_type block_type;
-        std::string parameters;
         _output_type output_type;
-        int execution_status {-1};
+        int execution_status;
 
-
-        rapidjson::Document parse_parameters();
-
-        virtual bool execute();
-        virtual void handle_exceptions(const std::exception e);
+        virtual bool execute() = 0;
+        virtual void handle_exceptions(const std::exception e) = 0;
 
     public:
-        MonitorBlock(const char* id,const char* name,_block_type type,const char* parameters,_output_type output_type);
-        ~MonitorBlock(); 
-
         void run_block();
 };

@@ -1,7 +1,7 @@
 #include "linux-command_block.h"
 
 CommandMonitorBlock::CommandMonitorBlock(const char* id,const char* name,const char* parameters) :
-MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {
+CollectorMonitorBlock(id,name,parameters,_output_type::ClearText) {
     this->output->data->insert(std::make_pair("stdout",""));
     this->output->data->insert(std::make_pair("stderr",""));
 };
@@ -23,8 +23,8 @@ bool CommandMonitorBlock::execute() {
             }
         }
 
-        std::string cmd = "cd " + folder_name + "; " + this->parameters;
-        auto [script_stdout,script_stderr,rc] = inspector::execute_commnad(cmd.c_str());
+        std::string cmd = "cd " + folder_name + "; " + (std::string)this->parameters["commandline"].GetString();
+        auto [script_stdout,script_stderr,rc] = inspector::execute_command(cmd.c_str());
         
         // Delete Work Folder
         if (!std::filesystem::remove_all(folder_name.c_str()))

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "..\..\monitor_block.h"
+#include "..\collector_monitor_block.h"
 #include "..\..\..\utilities\windows-command_executor.h"
 #include <stdio.h>
 #include <tuple>
 #include <filesystem>
 
-class CommandMonitorBlock : public MonitorBlock {
+class CommandMonitorBlock : public CollectorMonitorBlock {
     private:
         MonitorBlockOutput<std::string> *output = new MonitorBlockOutput<std::string>;
 

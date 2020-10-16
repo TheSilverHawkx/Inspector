@@ -2,7 +2,7 @@
 
 
 ScriptMonitorBlock::ScriptMonitorBlock(const char* id,const char* name,const char* parameters) :
-MonitorBlock(id,name,_block_type::collector,parameters,_output_type::ClearText) {};
+CollectorMonitorBlock(id,name,parameters,_output_type::ClearText) {};
 
 ScriptMonitorBlock::~ScriptMonitorBlock() {
     delete this->output;
@@ -11,10 +11,9 @@ ScriptMonitorBlock::~ScriptMonitorBlock() {
 bool ScriptMonitorBlock::execute() {
     try {
         // Parse Script Parameters
-        rapidjson::Document parsed_parameters = this->parse_parameters();
-        const std::string& script_code = parsed_parameters["script_code"].GetString();
-        const std::string& script_params = parsed_parameters["script_parameters"].GetString();
-        const std::string& script_language = parsed_parameters["script_language"].GetString();
+        const std::string& script_code = this->parameters["script_code"].GetString();
+        const std::string& script_params = this->parameters["script_parameters"].GetString();
+        const std::string& script_language = this->parameters["script_language"].GetString();
 
         // Declare Script-specific variables
         int timeout_in_seconds = 10;
