@@ -8,7 +8,7 @@
 
 class CommandMonitorBlock : public CollectorMonitorBlock {
     private:
-        MonitorBlockOutput<std::string> *output = new MonitorBlockOutput<std::string>;
+        MonitorBlockOutput<clear_text_output> *output = new MonitorBlockOutput<clear_text_output>;
 
         bool execute() override;
         void handle_exceptions(const std::exception e) override;

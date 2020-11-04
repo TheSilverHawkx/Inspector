@@ -4,6 +4,7 @@
     #include "..\Monitor-Blocks\Collector\WMI\windows-wmi_block.h"
     #include "..\..\include\rapidjson\document.h"
     #include "..\..\include\rapidjson\filereadstream.h"
+    //#include "..\utilities\condition_parser.h"
     #include <cstdio>
 #else
     #include "../../include/rapidjson/document.h"
@@ -15,6 +16,7 @@
 #include <string>
 #include "iostream"
 #include <filesystem>
+#include <vector>
 
 namespace fs = std::filesystem;
 
@@ -28,6 +30,23 @@ int main() {
     
     // Script Bash
     const char* json = "{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
+
+    /*const char* json1 = "{\"script_language\":{\"a\": \"bash\"},\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
+    rapidjson::Document doc;
+
+    doc.Parse(json1);
+    std::cout << doc["script_language"].HasMember("a") << std::endl;
+    */
+
+    std::vector<std::string> yeet_list {};
+    yeet_list.push_back("5");
+
+    const char* conditions = "{\"field\": \"equals \"5\"}";
+    rapidjson::Document doc;
+
+    doc.Parse(conditions);
+
+    //inspector::evaluate_condition(doc,yeet_list);
     // Script Powershell
     //const char* json = "{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\"write-host 'yeet1'\\nwrite-host 'yeet2'\"}";
     // Script Batch

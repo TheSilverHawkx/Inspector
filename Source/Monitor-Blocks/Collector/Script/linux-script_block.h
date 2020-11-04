@@ -9,7 +9,7 @@
 
 class ScriptMonitorBlock : public CollectorMonitorBlock {
     private:
-        MonitorBlockOutput<std::map<std::string,std::string>> *output  = new MonitorBlockOutput<std::map<std::string,std::string>>;
+        MonitorBlockOutput<two_string_pair> *output  = new MonitorBlockOutput<two_string_pair>;
         
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
