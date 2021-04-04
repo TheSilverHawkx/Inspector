@@ -3,8 +3,8 @@
     #include "..\Monitor-Blocks\Collector\Script\windows-script_block.h"
     #include "..\Monitor-Blocks\Collector\WMI\windows-wmi_block.h"
     #include "..\..\include\rapidjson\document.h"
+    #include "..\utilities\condition_parser.h"
     #include "..\..\include\rapidjson\filereadstream.h"
-    //#include "..\utilities\condition_parser.h"
     #include <cstdio>
 #else
     #include "../../include/rapidjson/document.h"
@@ -38,14 +38,30 @@ int main() {
     std::cout << doc["script_language"].HasMember("a") << std::endl;
     */
 
-    std::vector<std::string> yeet_list {};
-    yeet_list.push_back("5");
+    //std::vector<std::string> yeet_list {};
+    //yeet_list.push_back("5");
 
     const char* conditions = "{\"field\": \"equals \"5\"}";
+    const char* conditions_text = "{\"condition_operator\":\"equals\",\"condition_value\": \"5\"}";
     rapidjson::Document doc;
 
-    doc.Parse(conditions);
+    std::vector<std::string> bleep {};
+    doc.Parse(conditions_text);
 
+    //% need to add parsing error handling
+    if (doc.HasParseError()) {
+        std::cout <<  doc.GetParseError();
+    }
+    else {
+    rapidjson::Value& yee = doc;
+
+    if (inspector::evaluate_condition(yee,bleep)){
+        std::cout << "true";
+    }
+    else {
+        std::cout << "false";
+    }
+    }
     //inspector::evaluate_condition(doc,yeet_list);
     // Script Powershell
     //const char* json = "{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\"write-host 'yeet1'\\nwrite-host 'yeet2'\"}";
@@ -57,9 +73,9 @@ int main() {
     //std::string script = "{\"commandline\":\"/bin/bash -c \\\"echo hello;echo tea\\\"\"}";
     //const char * script = "{\"commandline\":\"sc query pluglay\"}";
     //CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
-    ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
+    //ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
     //WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
-    block->run_block();
+    //block->run_block();
 }
 
 

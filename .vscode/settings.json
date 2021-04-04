@@ -83,7 +83,8 @@
         "xutility": "cpp",
         "filesystem": "cpp",
         "xtree": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "xmemory0": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
     "C_Cpp.loggingLevel": "Debug"
