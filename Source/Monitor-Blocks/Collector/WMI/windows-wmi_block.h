@@ -14,11 +14,12 @@
 
 class WMIMonitorBlock : public CollectorMonitorBlock {
     private:
-        MonitorBlockOutput<std::vector<std::vector<std::string>>> *output = new MonitorBlockOutput<std::vector<std::vector<std::string>>>;
 
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
     public:
         WMIMonitorBlock(const char*,const char*,const char*);
         ~WMIMonitorBlock();
+        
+        MonitorBlockOutput<table_output> *output = new MonitorBlockOutput<table_output>;
 };

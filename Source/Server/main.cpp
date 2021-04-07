@@ -29,42 +29,10 @@ int main() {
     std::cout << "Running in main.cpp" << std::endl;
     
     // Script Bash
-    const char* json = "{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
+    //const char* json = "{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
 
-    /*const char* json1 = "{\"script_language\":{\"a\": \"bash\"},\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
-    rapidjson::Document doc;
-
-    doc.Parse(json1);
-    std::cout << doc["script_language"].HasMember("a") << std::endl;
-    */
-
-    //std::vector<std::string> yeet_list {};
-    //yeet_list.push_back("5");
-
-    const char* conditions = "{\"field\": \"equals \"5\"}";
-    const char* conditions_text = "{\"condition_operator\":\"equals\",\"condition_value\": \"5\"}";
-    rapidjson::Document doc;
-
-    std::vector<std::string> bleep {};
-    doc.Parse(conditions_text);
-
-    //% need to add parsing error handling
-    if (doc.HasParseError()) {
-        std::cout <<  doc.GetParseError();
-    }
-    else {
-    rapidjson::Value& yee = doc;
-
-    if (inspector::evaluate_condition(yee,bleep)){
-        std::cout << "true";
-    }
-    else {
-        std::cout << "false";
-    }
-    }
-    //inspector::evaluate_condition(doc,yeet_list);
-    // Script Powershell
-    //const char* json = "{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\"write-host 'yeet1'\\nwrite-host 'yeet2'\"}";
+    //Script Powershell
+    const char* json = "{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\"write-host 'yeet1'\\nwrite-host 'yeet2'\"}";
     // Script Batch
     //const char* json = "{\"script_language\":\"batch\",\"script_parameters\":\"1 2 3\",\"script_code\":\"echo bat1\\necho bat2\"}";
     // WMI
@@ -73,9 +41,38 @@ int main() {
     //std::string script = "{\"commandline\":\"/bin/bash -c \\\"echo hello;echo tea\\\"\"}";
     //const char * script = "{\"commandline\":\"sc query pluglay\"}";
     //CommandMonitorBlock* block = new CommandMonitorBlock("123","mooshoo",script.c_str());
-    //ScriptMonitorBlock* block = new ScriptMonitorBlock("123","script_block",json);
+    ScriptMonitorBlock* collector_block = new ScriptMonitorBlock("123","script_block",json);
     //WMIMonitorBlock* block = new WMIMonitorBlock("123","script_block",json);
-    //block->run_block();
+    collector_block->run_block();
+
+    // Mock data for Conditions
+    std::vector<std::string> bleep {"4"};
+    rapidjson::Document doc;
+    //const char* simple_conditions = "{\"condition_operator\":\"equals\",\"condition_value\": \"shoop\",\"index\" : 0}";
+    //const char* and_conditions = "{\"group_operator\" : \"and\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"5\",\"index\" : 0},{\"condition_operator\":\"equals\",\"condition_value\": \"4\",\"index\" : 0}]}";
+    //const char* or_conditions = "{\"group_operator\" : \"or\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"5\",\"index\" : 0},{\"condition_operator\":\"equals\",\"condition_value\": \"4\",\"index\" : 0}]}";
+    const char* nested_conditions = "{\"group_operator\" : \"and\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"4\",\"index\" : 0},{\"group_operator\" : \"or\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"5\",\"index\" : 0},{\"condition_operator\":\"equals\",\"condition_value\": \"6\",\"index\" : 0}]}]}";
+
+    doc.Parse(nested_conditions);
+
+    //% need to add parsing error handling
+    if (doc.HasParseError()) {
+        std::cout <<  doc.GetParseError();
+    }
+    else {
+        rapidjson::Value& yee = doc;
+        try {
+            if (inspector::evaluate_condition(yee,bleep)){
+                std::cout << "true" << std::endl;
+            }
+            else {
+                std::cout << "false" << std::endl;
+            }
+        }
+        catch (const std::exception& e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
 }
 
 

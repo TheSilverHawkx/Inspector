@@ -3,9 +3,11 @@
 #include <map>
 #include <vector>
 
+//% use enum from monitor_block.h instead of typedef
 typedef std::string clear_text_output;
 typedef std::map<std::string,std::string> two_string_pair_output;
 typedef std::vector<std::vector<std::string>> table_output;
+
 
 template<typename T>
 struct MonitorBlockOutput
@@ -26,7 +28,6 @@ struct MonitorBlockOutput
         }
         else if constexpr (std::is_same_v<T,MonitorBlockOutput<two_string_pair_output>>)
         {
-            //for (two_string_pair_output::iterator it=(MonitorBlockOutput<two_string_pair_output>)data.begin(); it!=(MonitorBlockOutput<two_string_pair_output>)data.end();++it){
             for (two_string_pair_output::iterator it=this->data.begin(); it!=this->data.end();++it){
                 list.push_back(std::string {it->first + ": " + it->second});
             }

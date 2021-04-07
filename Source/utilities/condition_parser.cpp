@@ -1,5 +1,4 @@
 #include "condition_parser.h"
-#include <iostream>
 
 bool inspector::evaluate_condition(rapidjson::Value& conditions_list, std::vector<std::string>& output_list) {
 	bool condition_status {false};
@@ -13,45 +12,53 @@ bool inspector::evaluate_condition(rapidjson::Value& conditions_list, std::vecto
 		// Handle AND group operator. When gets at least 1 false then the whole group is false
 		if (group_operator == "and") {
 			for (auto& condition : conditions_list["conditions"].GetArray()) {
-				//if (inspector::evaluate_condition(condition,output_list) == false) {
-				//	return false;
-				//}
+				if (inspector::evaluate_condition(condition,output_list) == false) {
+					return false;
+				}
 			}
 			return true;
 		}
 		// Handle OR group operator. When gets at least 1 true then the whole group is true
 		else if (group_operator == "or") {
 			for (auto& condition : conditions_list["conditions"].GetArray()) {
-				/*if (inspector::evaluate_condition(condition,output_list)) {
+				if (inspector::evaluate_condition(condition,output_list)) {
 					return true;
-				}*/
+				}
 			}
 			return false;
 		}
 		else {
-			throw "Invalid group operattor. found: " + group_operator;
+			throw std::invalid_argument("Invalid group operattor. found: " + group_operator);
 		}
 	}
 	
 	// Simple Condition
 	std::string condition_operator = conditions_list["condition_operator"].GetString();
 	std::string condition_subject = conditions_list["condition_value"].GetString();
+    int index = conditions_list["index"].GetInt();
 
-	try {
-	return inspector::condition_operator_table[condition_operator](output_list,condition_subject);
-	}
-	catch (std::exception e)
-	{
-		return false;
-	}
+    if (output_list.size() <= index) {
+        throw std::invalid_argument("Invalid output index for condition: output index " + std::to_string(index) + " " + condition_operator + " " + condition_subject);
+    }
+
+    try {
+	    condition_status = inspector::condition_operator_table.at(condition_operator)(output_list,index,condition_subject);
+
+    }
+    // Handle unsupported condition_operator 
+    catch (std::out_of_range e) {
+        throw std::invalid_argument("Invalid condition operator: " + condition_operator);
+    }
+
+    return condition_status;
 }
 
-std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)> > inspector::condition_operator_table {
-        {"equals",[](std::vector<std::string>& output_list,std::string& condition) {
+std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::string&)> > inspector::condition_operator_table {
+        {"equals",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
-                int output_number = (int)std::strtol(output_list[0].c_str(),&p,10);
+                int output_number = (int)std::strtol(output_list[index].c_str(),&p,10);
                 if (*p == 0 && *c == 0) {
                     return (output_number == condition_number) ? true : false;
                 }
@@ -68,11 +75,11 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 }
             }
         },
-        {"notequals",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"notequals",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
-                int output_number = (int)std::strtol(output_list[0].c_str(),&p,10);
+                int output_number = (int)std::strtol(output_list[index].c_str(),&p,10);
                 if (*p == 0 && *c == 0) {
                     return (output_number != condition_number) ? true : false;
                 }
@@ -89,11 +96,11 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 }
             }
         },
-        {"greaterthan",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"greaterthan",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 char* p;
                 char* c;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
-                int output_number = (int)std::strtol(output_list[0].c_str(),&p,10);
+                int output_number = (int)std::strtol(output_list[index].c_str(),&p,10);
                 if (*p == 0 && *c == 0) {
                     return (output_number > condition_number) ? true : false;
                 }
@@ -102,11 +109,11 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 }
             }
         },
-        {"greaterequal",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"greaterequal",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
-                int output_number = (int)std::strtol(output_list[0].c_str(),&p,10);
+                int output_number = (int)std::strtol(output_list[index].c_str(),&p,10);
                 if (*p == 0 && *c == 0) {
                     return (output_number >= condition_number) ? true : false;
                 }
@@ -115,11 +122,11 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 }            
             }
         },
-        {"lessthan",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"lessthan",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
-                int output_number = (int)std::strtol(output_list[0].c_str(),&p,10);
+                int output_number = (int)std::strtol(output_list[index].c_str(),&p,10);
                 if (*p == 0 && *c == 0) {
                     return (output_number < condition_number) ? true : false;
                 }
@@ -128,11 +135,11 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 }             
             }
         },
-        {"lessequal",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"lessequal",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
-                int output_number = (int)std::strtol(output_list[0].c_str(),&p,10);
+                int output_number = (int)std::strtol(output_list[index].c_str(),&p,10);
                 if (*p == 0 && *c == 0) {
                     return (output_number <= condition_number) ? true : false;
                 }
@@ -141,7 +148,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 }    
             }
         },
-        {"contains",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"contains",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if ((*it).find(condition) != std::string::npos){
                         return true;
@@ -150,7 +157,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 return false;
             }
         },
-        {"notcontains",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"notcontains",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if ((*it).find(condition) != std::string::npos){
                         return false;
@@ -159,7 +166,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 return true;
             }
         },
-        {"regex",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"regex",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if (std::regex_match(*it,std::regex(condition))){
                         return true;
@@ -171,7 +178,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,std::string&)>
                 return false;
             }
         },
-        {"notregex",[](std::vector<std::string>& output_list,std::string& condition) {
+        {"notregex",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if (std::regex_match(*it,std::regex(condition))){
                         return false;

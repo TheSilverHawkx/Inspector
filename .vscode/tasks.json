@@ -13,10 +13,13 @@
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
 				"${workspaceFolder}/Source/utilities/linux-*.cpp",
+				"${workspaceFolder}/Source/utilities/condition_parser.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/collector_monitor_block.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Command/linux-*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Script/linux-*.cpp",
+				"${workspaceFolder}/Source//Monitor-Blocks/Conditional/*.cpp",
+				"${workspaceFolder}/Source/Monitor-Blocks/Conditional//SimpleEvaluation/*.cpp",
 				"-o",
 				"${workspaceFolder}/bin/main"
 			],
@@ -47,6 +50,8 @@
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\WMI\\windows-*.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Script\\windows-*.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\Command\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Conditional\\*.cpp",
+				"${workspaceFolder}\\Source\\Monitor-Blocks\\Conditional\\SimpleEvaluation\\*.cpp",
 			],
 			"problemMatcher": [
 				"$msCompile"
