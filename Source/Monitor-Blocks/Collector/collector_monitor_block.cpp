@@ -6,10 +6,12 @@ CollectorMonitorBlock::CollectorMonitorBlock(const char* id,
                             _output_type output_type) {
     this->id = id;
     this->name = name;
-    this->parameters.Parse(parameters);
+    this->parameters = this->parse_json(parameters);
     this->output_type = output_type;
 };
-CollectorMonitorBlock::~CollectorMonitorBlock() {};
+CollectorMonitorBlock::~CollectorMonitorBlock() {
+    delete this->parameters;
+};
 
 bool CollectorMonitorBlock::execute() {
     return false;

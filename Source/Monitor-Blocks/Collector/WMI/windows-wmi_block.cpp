@@ -9,9 +9,9 @@ WMIMonitorBlock::~WMIMonitorBlock() {
 
 bool WMIMonitorBlock::execute() {
     try {
-        const std::string& wmi_namespace = this->parameters["namespace"].GetString();
-        const std::string& wmi_query = this->parameters["query"].GetString();
-        const std::string& wmi_target = this->parameters["target"].GetString();
+        const std::string& wmi_namespace = (*this->parameters)["namespace"].GetString();
+        const std::string& wmi_query = (*this->parameters)["query"].GetString();
+        const std::string& wmi_target = (*this->parameters)["target"].GetString();
         
         if (FAILED(CoInitializeEx(0,COINIT_MULTITHREADED)))
         {

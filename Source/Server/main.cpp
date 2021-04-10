@@ -46,33 +46,13 @@ int main() {
     collector_block->run_block();
 
     // Mock data for Conditions
-    std::vector<std::string> bleep {"4"};
-    rapidjson::Document doc;
+    std::vector<std::string> bleep {"yeet1"};
     //const char* simple_conditions = "{\"condition_operator\":\"equals\",\"condition_value\": \"shoop\",\"index\" : 0}";
     //const char* and_conditions = "{\"group_operator\" : \"and\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"5\",\"index\" : 0},{\"condition_operator\":\"equals\",\"condition_value\": \"4\",\"index\" : 0}]}";
     //const char* or_conditions = "{\"group_operator\" : \"or\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"5\",\"index\" : 0},{\"condition_operator\":\"equals\",\"condition_value\": \"4\",\"index\" : 0}]}";
     const char* nested_conditions = "{\"group_operator\" : \"and\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"4\",\"index\" : 0},{\"group_operator\" : \"or\", \"conditions\": [{\"condition_operator\":\"equals\",\"condition_value\": \"5\",\"index\" : 0},{\"condition_operator\":\"equals\",\"condition_value\": \"6\",\"index\" : 0}]}]}";
 
-    doc.Parse(nested_conditions);
-
     //% need to add parsing error handling
-    if (doc.HasParseError()) {
-        std::cout <<  doc.GetParseError();
-    }
-    else {
-        rapidjson::Value& yee = doc;
-        try {
-            if (inspector::evaluate_condition(yee,bleep)){
-                std::cout << "true" << std::endl;
-            }
-            else {
-                std::cout << "false" << std::endl;
-            }
-        }
-        catch (const std::exception& e) {
-            std::cout << e.what() << std::endl;
-        }
-    }
 }
 
 

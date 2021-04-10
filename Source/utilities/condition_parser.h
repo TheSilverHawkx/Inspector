@@ -12,10 +12,10 @@
 #else
     #include "../../include/rapidjson/rapidjson.h"
     #include "../../include/rapidjson/document.h"
+
 #endif
 
 namespace inspector {
     bool evaluate_condition(rapidjson::Value&,std::vector<std::string>&);
-
     extern std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::string&)> > condition_operator_table;
 }

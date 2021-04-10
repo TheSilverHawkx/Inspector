@@ -8,8 +8,9 @@
 
 class CollectorMonitorBlock : public MonitorBlock {
     protected:
-        rapidjson::Document parameters;
+        
         _output_type output_type;
+        rapidjson::Document* parameters;
 
         virtual bool execute();
         virtual void handle_exceptions(const std::exception e);

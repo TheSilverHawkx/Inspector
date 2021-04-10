@@ -3,7 +3,7 @@
 ConditionalMonitorBlock::ConditionalMonitorBlock(const char* id,const char* parameters,CollectorMonitorBlock* collector) {
     this->id = id;
     this->name = "";
-    this->parameters.Parse(parameters);
+    this->parameters = this->parse_json(parameters);
     this->output_type = output_type;
 
     if (CommandMonitorBlock* casted_collector = dynamic_cast<CommandMonitorBlock*>(collector)) {
@@ -24,7 +24,9 @@ ConditionalMonitorBlock::ConditionalMonitorBlock(const char* id,const char* para
 };
 
 
-ConditionalMonitorBlock::~ConditionalMonitorBlock() {};
+ConditionalMonitorBlock::~ConditionalMonitorBlock() {
+    delete this->parameters;
+};
 
 bool ConditionalMonitorBlock::execute() {
     return false;

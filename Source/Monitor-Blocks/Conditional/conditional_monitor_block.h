@@ -15,7 +15,7 @@
 
 class ConditionalMonitorBlock : public MonitorBlock {
     protected:
-        rapidjson::Document parameters;
+        rapidjson::Document* parameters;
         std::vector<std::string> collected_data;
 
         virtual bool execute();

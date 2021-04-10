@@ -10,7 +10,7 @@ CommandMonitorBlock::~CommandMonitorBlock() {
 bool CommandMonitorBlock::execute() {
     try {
         const std::string work_directory_path = std::filesystem::current_path().string() + "\\workdir\\" + this->id;
-        std::string cmd { "cmd /c \"" + (std::string)this->parameters["commandline"].GetString() + "\""};
+        std::string cmd { "cmd /c \"" + (std::string)(*this->parameters)["commandline"].GetString() + "\""};
         int timeout_in_seconds = 10;
 
         // Create Work Folder if doesn't exist

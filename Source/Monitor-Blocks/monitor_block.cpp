@@ -9,17 +9,23 @@ void MonitorBlock::run_block() {
         this->execution_status = 1;
     }
 };
-/*
-bool MonitorBlock::execute() {
-    return false;
-};
 
-rapidjson::Document MonitorBlock::parse_parameters() {
-    rapidjson::Document doc;
-    doc.Parse(this->parameters.c_str());
+rapidjson::Document* MonitorBlock::parse_json(const char* json) {
+    rapidjson::Document* doc = new rapidjson::Document;
+    doc->Parse(json);
+
+
+
+    if (doc->HasParseError()) {
+        std::string formatted_error = {typeid(this).name()};
+        formatted_error.append(": parsing error at ");
+        formatted_error.append(std::to_string(doc->GetErrorOffset()));
+        formatted_error.append(": ");
+        formatted_error.append(rapidjson::GetParseError_En(doc->GetParseError()));
+        
+        delete doc;
+        throw std::runtime_error(formatted_error);
+    }
+
     return doc;
 }
-
-void MonitorBlock::handle_exceptions(const std::exception e) {
-    
-};*/
