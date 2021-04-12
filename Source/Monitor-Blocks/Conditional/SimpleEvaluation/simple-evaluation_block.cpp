@@ -11,7 +11,7 @@ bool SimpleEvaluationBlock::execute() {
         this->evaluation_status = inspector::evaluate_condition(condition_list,this->collected_data);
         return true;
     }
-    catch (std::exception e)
+    catch (const std::exception& e)
     {
         throw;
     }

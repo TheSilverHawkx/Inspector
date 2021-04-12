@@ -5,14 +5,15 @@
     #include "..\..\include\rapidjson\document.h"
     #include "..\utilities\condition_parser.h"
     #include "..\..\include\rapidjson\filereadstream.h"
+    #include "..\Monitor-Blocks\Conditional\SimpleEvaluation\simple-evaluation_block.h"
     #include <cstdio>
 #else
     #include "../../include/rapidjson/document.h"
     #include "../Monitor-Blocks/Collector/Command/linux-command_block.h"
     #include "../Monitor-Blocks/Collector/Script/linux-script_block.h"
+    #include "../Monitor-Blocks/Conditional/SimpleEvaluation/simple-evaluation_block.h"
 #endif
 
-#include "..\Monitor-Blocks\Conditional\SimpleEvaluation\simple-evaluation_block.h"
 
 #include <stdexcept>
 #include <string>
@@ -31,7 +32,7 @@ int main() {
     std::cout << "Running in main.cpp" << std::endl;
     
     // Script Bash
-    //const char* json = "{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
+    const char* json = "{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
     //Script Powershell
     //const char* json = "{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\" Get-Content 'C:\\\\Users\\\\omerr\\\\OneDrive\\\\Desktop\\\\yeet1.txt'\"}";
     // Script Batch
@@ -39,12 +40,12 @@ int main() {
     // WMI
     //const char* json = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
     // Command Windows
-    const char * command = "{\"commandline\":\"sc query plugplay\"}";
+    //const char* command = "{\"commandline\":\"sc query plugplay\"}";
     // Command Linux
-    //const char * command = "{\"commandline\":\"/bin/bash -c \"echo hello\"}";
+    //const char* command = "{\"commandline\":\"/bin/bash -c 'echo hello'\"}";
 
-    CommandMonitorBlock* collector_block = new CommandMonitorBlock("123","mooshoo",command);
-    //ScriptMonitorBlock* collector_block = new ScriptMonitorBlock("123","script_block",json);
+    //CommandMonitorBlock* collector_block = new CommandMonitorBlock("123","mooshoo",command);
+    ScriptMonitorBlock* collector_block = new ScriptMonitorBlock("123","script_block",json);
     //WMIMonitorBlock* collector_block = new WMIMonitorBlock("123","script_block",json);
     collector_block->run_block();
 
@@ -62,10 +63,10 @@ int main() {
     conditional_block->run_block();
 
     if (conditional_block->evaluation_status) {
-        std::cout << "All good!";
+        std::cout << "All good!" << std::endl;
     }
     else {
-        std::cout << "bad!";
+        std::cout << "bad!" << std::endl;
     }
 }
 

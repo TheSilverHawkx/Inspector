@@ -20,7 +20,7 @@ struct MonitorBlockOutput
     }
 
     public:
-    std::vector<std::string> MonitorBlockOutput::to_list() {
+    std::vector<std::string> to_list() {
         std::vector<std::string> list {};
 
         if constexpr (std::is_same_v<T,clear_text_output>) {

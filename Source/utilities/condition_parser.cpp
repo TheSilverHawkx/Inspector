@@ -35,7 +35,7 @@ bool inspector::evaluate_condition(rapidjson::Value& conditions_list, std::vecto
 	// Simple Condition
 	std::string condition_operator = conditions_list["condition_operator"].GetString();
 	std::string condition_subject = conditions_list["condition_value"].GetString();
-    int index = conditions_list["index"].GetInt();
+    unsigned int index = conditions_list["index"].GetInt();
 
     if (output_list.size() <= index) {
         throw std::invalid_argument("Invalid output index for condition: output index " + std::to_string(index) + " " + condition_operator + " " + condition_subject);
@@ -46,15 +46,15 @@ bool inspector::evaluate_condition(rapidjson::Value& conditions_list, std::vecto
 
     }
     // Handle unsupported condition_operator 
-    catch (std::out_of_range e) {
+    catch (const std::out_of_range& e) {
         throw std::invalid_argument("Invalid condition operator: " + condition_operator);
     }
 
     return condition_status;
 }
 
-std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::string&)> > inspector::condition_operator_table {
-        {"equals",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+std::map<std::string,std::function<bool(std::vector<std::string>&,unsigned int&,std::string&)> > inspector::condition_operator_table {
+        {"equals",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
@@ -75,7 +75,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 }
             }
         },
-        {"notequals",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"notequals",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
@@ -96,7 +96,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 }
             }
         },
-        {"greaterthan",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"greaterthan",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 char* p;
                 char* c;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
@@ -109,7 +109,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 }
             }
         },
-        {"greaterequal",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"greaterequal",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
@@ -122,7 +122,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 }            
             }
         },
-        {"lessthan",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"lessthan",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
@@ -135,7 +135,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 }             
             }
         },
-        {"lessequal",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"lessequal",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 char* c;
                 char* p;
                 int condition_number = (int)std::strtol(condition.c_str(),&c,10);
@@ -148,7 +148,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 }    
             }
         },
-        {"contains",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"contains",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if ((*it).find(condition) != std::string::npos){
                         return true;
@@ -157,7 +157,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 return false;
             }
         },
-        {"notcontains",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"notcontains",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if ((*it).find(condition) != std::string::npos){
                         return false;
@@ -166,7 +166,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 return true;
             }
         },
-        {"regex",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"regex",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if (std::regex_match(*it,std::regex(condition))){
                         return true;
@@ -178,7 +178,7 @@ std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::stri
                 return false;
             }
         },
-        {"notregex",[](std::vector<std::string>& output_list,int& index,std::string& condition) {
+        {"notregex",[](std::vector<std::string>& output_list,unsigned int& index,std::string& condition) {
                 for (std::vector<std::string>::iterator it = output_list.begin(); it!= output_list.end();++it) {
                     if (std::regex_match(*it,std::regex(condition))){
                         return false;

@@ -17,5 +17,5 @@
 
 namespace inspector {
     bool evaluate_condition(rapidjson::Value&,std::vector<std::string>&);
-    extern std::map<std::string,std::function<bool(std::vector<std::string>&,int&,std::string&)> > condition_operator_table;
+    extern std::map<std::string,std::function<bool(std::vector<std::string>&,unsigned int&,std::string&)> > condition_operator_table;
 }

@@ -4,13 +4,13 @@
 #include <stdexcept>
 #include <typeinfo>
 
+#include "output_data_structure.h"
+
 #ifdef _WIN32
     #include "..\..\include\rapidjson\document.h"
-    #include "output_data_structure.h"
     #include "..\..\include\rapidjson\error\en.h"
 #else
     #include "../../include/rapidjson/document.h"
-    #include "output_data_structure.h"
     #include "../../include/rapidjson/error/en.h"
 #endif
 
