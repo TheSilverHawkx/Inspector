@@ -23,7 +23,7 @@ bool CommandMonitorBlock::execute() {
             }
         }
 
-        std::string cmd = "cd " + folder_name + "; " + (std::string)this->parameters["commandline"].GetString();
+        std::string cmd = "cd " + folder_name + "; " + (std::string)(*this->parameters)["commandline"].GetString();
         auto [script_stdout,script_stderr,rc] = inspector::execute_command(cmd.c_str());
         
         // Delete Work Folder

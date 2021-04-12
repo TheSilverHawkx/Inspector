@@ -15,9 +15,9 @@ ScriptMonitorBlock::~ScriptMonitorBlock() {
 bool ScriptMonitorBlock::execute() {
     try {
         // Parse Information from parameters json
-        const std::string& script_code = this->parameters["script_code"].GetString();
-        const std::string& script_params = this->parameters["script_parameters"].GetString();
-        const std::string& script_language = this->parameters["script_language"].GetString();
+        const std::string& script_code = (*this->parameters)["script_code"].GetString();
+        const std::string& script_params = (*this->parameters)["script_parameters"].GetString();
+        const std::string& script_language = (*this->parameters)["script_language"].GetString();
 
         // Define work directory and temporary script file
         const std::string folder_name = "workdir/" + this->id;

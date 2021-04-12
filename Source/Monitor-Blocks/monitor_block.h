@@ -2,13 +2,16 @@
 
 #include <string>
 #include <stdexcept>
+#include <typeinfo>
+
+#include "output_data_structure.h"
 
 #ifdef _WIN32
     #include "..\..\include\rapidjson\document.h"
-    #include "output_data_structure.h"
+    #include "..\..\include\rapidjson\error\en.h"
 #else
     #include "../../include/rapidjson/document.h"
-    #include "output_data_structure.h"
+    #include "../../include/rapidjson/error/en.h"
 #endif
 
 enum _block_type {trigger,collector,condition,operation,composite};
@@ -24,6 +27,7 @@ class MonitorBlock {
 
         virtual bool execute() = 0;
         virtual void handle_exceptions(const std::exception e) = 0;
+        rapidjson::Document* parse_json(const char*);
 
     public:
         void run_block();

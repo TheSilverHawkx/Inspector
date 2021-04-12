@@ -7,11 +7,12 @@
 
 class CommandMonitorBlock : public CollectorMonitorBlock {
     private:
-        MonitorBlockOutput<std::map<std::string,std::string>> *output  = new MonitorBlockOutput<std::map<std::string,std::string>>;
 
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
     public:
         CommandMonitorBlock(const char*,const char*,const char*);
         ~CommandMonitorBlock();
+        
+        MonitorBlockOutput<two_string_pair_output> *output  = new MonitorBlockOutput<two_string_pair_output>;
 };

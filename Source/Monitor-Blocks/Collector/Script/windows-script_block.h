@@ -11,13 +11,14 @@
 
 class ScriptMonitorBlock : public CollectorMonitorBlock {
     private:
-        MonitorBlockOutput<std::string> *output  = new MonitorBlockOutput<std::string>;;
 
         bool execute() override;
         void handle_exceptions(const std::exception e) override;
     public:
         ScriptMonitorBlock(const char* id,const char* name,const char* parameters);
         ~ScriptMonitorBlock();
+        
+        MonitorBlockOutput<clear_text_output> *output  = new MonitorBlockOutput<clear_text_output>;;
 
         
 };

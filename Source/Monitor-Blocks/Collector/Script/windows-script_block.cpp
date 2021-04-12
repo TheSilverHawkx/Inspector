@@ -11,9 +11,9 @@ ScriptMonitorBlock::~ScriptMonitorBlock() {
 bool ScriptMonitorBlock::execute() {
     try {
         // Parse Script Parameters
-        const std::string& script_code = this->parameters["script_code"].GetString();
-        const std::string& script_params = this->parameters["script_parameters"].GetString();
-        const std::string& script_language = this->parameters["script_language"].GetString();
+        const std::string& script_code = (*this->parameters)["script_code"].GetString();
+        const std::string& script_params = (*this->parameters)["script_parameters"].GetString();
+        const std::string& script_language = (*this->parameters)["script_language"].GetString();
 
         // Declare Script-specific variables
         int timeout_in_seconds = 10;

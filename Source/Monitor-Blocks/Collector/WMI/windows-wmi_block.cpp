@@ -9,9 +9,9 @@ WMIMonitorBlock::~WMIMonitorBlock() {
 
 bool WMIMonitorBlock::execute() {
     try {
-        const std::string& wmi_namespace = this->parameters["namespace"].GetString();
-        const std::string& wmi_query = this->parameters["query"].GetString();
-        const std::string& wmi_target = this->parameters["target"].GetString();
+        const std::string& wmi_namespace = (*this->parameters)["namespace"].GetString();
+        const std::string& wmi_query = (*this->parameters)["query"].GetString();
+        const std::string& wmi_target = (*this->parameters)["target"].GetString();
         
         if (FAILED(CoInitializeEx(0,COINIT_MULTITHREADED)))
         {
@@ -54,7 +54,6 @@ bool WMIMonitorBlock::execute() {
         IWbemClassObject* wmiobjectrow = NULL;
         ULONG uReturn = 0;
 
-        std::vector<std::vector<std::string>> wmi_result {};
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
         
         while (enumerator)
@@ -89,12 +88,12 @@ bool WMIMonitorBlock::execute() {
             
             if(SUCCEEDED(SafeArrayAccessData(sfArray,(void HUGEP**)&pbstr)))
             {
-                if (wmi_result.size() == 0) {
+                if (this->output->data->size() == 0) {
                     std::vector<std::string> property_row {};
                     for (i = lstart; i < lend; i++) {
                         property_row.push_back(converter.to_bytes(pbstr[i]));
                     }
-                    wmi_result.push_back(property_row);
+                    this->output->data->push_back(property_row);
                 }
 
                 CIMTYPE pType = 0;
@@ -119,7 +118,7 @@ bool WMIMonitorBlock::execute() {
         
                 }
                 if (FAILED(SafeArrayUnaccessData(sfArray))) return hr;
-                wmi_result.push_back(wmi_row);
+                this->output->data->push_back(wmi_row);
             }	
         
             wmiobjectrow->Release();
@@ -130,8 +129,6 @@ bool WMIMonitorBlock::execute() {
         enumerator->Release();
         CoUninitialize();
 
-        
-        this->output->data = &wmi_result;
         this->output->return_code = 0;
         return true;
     }
