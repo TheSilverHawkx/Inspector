@@ -5,16 +5,17 @@ ConditionalMonitorBlock::ConditionalMonitorBlock(const char* id,const char* para
     this->name = "";
     this->parameters = this->parse_json(parameters);
     this->output_type = output_type;
-
+    this->evaluation_status = false;
+    
     if (CommandMonitorBlock* casted_collector = dynamic_cast<CommandMonitorBlock*>(collector)) {
-        collected_data = casted_collector->output->to_list();
+        this->collected_data = casted_collector->output->to_list();
     }
     else if (ScriptMonitorBlock* casted_collector = dynamic_cast<ScriptMonitorBlock*>(collector)) {
-        collected_data = casted_collector->output->to_list();
+        this->collected_data = casted_collector->output->to_list();
     }
     #ifdef _WIN32
     else if (WMIMonitorBlock* casted_collector = dynamic_cast<WMIMonitorBlock*>(collector)) {
-        collected_data = casted_collector->output->to_list();
+        this->collected_data = casted_collector->output->to_list();
     }
     #endif
     else {

@@ -23,21 +23,33 @@ struct MonitorBlockOutput
     std::vector<std::string> MonitorBlockOutput::to_list() {
         std::vector<std::string> list {};
 
-        if constexpr (std::is_same_v<T,MonitorBlockOutput<clear_text_output>>) {
-            list.push_back(this->data);
+        if constexpr (std::is_same_v<T,clear_text_output>) {
+            std::string line = {""};
+            for (clear_text_output::iterator it = this->data->begin(); it != this->data->end(); ++it){
+                if (*it == '\n'){
+                    list.push_back(line);
+                    line = {};
+                }
+                else {
+                    line += *it;
+                }
+            }
+            if (!line.empty()) {
+                list.push_back(line);
+            }
         }
-        else if constexpr (std::is_same_v<T,MonitorBlockOutput<two_string_pair_output>>)
+        else if constexpr (std::is_same_v<T,two_string_pair_output>)
         {
-            for (two_string_pair_output::iterator it=this->data.begin(); it!=this->data.end();++it){
+            for (two_string_pair_output::iterator it=this->data->begin(); it!=this->data->end();++it){
                 list.push_back(std::string {it->first + ": " + it->second});
             }
         }
-        else if constexpr (std::is_same_v<T,MonitorBlockOutput<table_output>>)
+        else if constexpr (std::is_same_v<T,table_output>)
         {
-            for (table_output::iterator it=this->data.begin(); it!=this->data.end();++it){
+            for (table_output::iterator it=this->data->begin(); it!=this->data->end();++it){
                 for (std::vector<std::string>::iterator it2=it->begin();it2!=it->end();++it2)
                 {
-                    list.push_back(std::string {*it2});
+                    list.push_back((*it2));
                 }
             }
         }

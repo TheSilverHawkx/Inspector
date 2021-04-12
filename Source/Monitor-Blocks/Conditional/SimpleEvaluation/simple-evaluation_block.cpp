@@ -8,7 +8,8 @@ SimpleEvaluationBlock::~SimpleEvaluationBlock() {};
 bool SimpleEvaluationBlock::execute() {
     try {
         rapidjson::Value& condition_list = (*this->parameters);
-        return inspector::evaluate_condition(condition_list,this->collected_data);
+        this->evaluation_status = inspector::evaluate_condition(condition_list,this->collected_data);
+        return true;
     }
     catch (std::exception e)
     {

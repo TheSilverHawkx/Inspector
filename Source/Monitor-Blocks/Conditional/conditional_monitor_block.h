@@ -24,4 +24,6 @@ class ConditionalMonitorBlock : public MonitorBlock {
     public:
         ConditionalMonitorBlock(const char* id,const char* parameters,CollectorMonitorBlock* collector);
         ~ConditionalMonitorBlock(); 
+        
+        bool evaluation_status;
 };

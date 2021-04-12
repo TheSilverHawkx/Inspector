@@ -2,6 +2,7 @@
 
 #include <string>
 #include <stdexcept>
+#include <typeinfo>
 
 #ifdef _WIN32
     #include "..\..\include\rapidjson\document.h"
