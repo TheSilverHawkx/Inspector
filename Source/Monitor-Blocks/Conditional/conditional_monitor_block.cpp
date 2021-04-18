@@ -6,7 +6,11 @@ ConditionalMonitorBlock::ConditionalMonitorBlock(const char* id,const char* para
     this->parameters = this->parse_json(parameters);
     this->output_type = output_type;
     this->evaluation_status = false;
-    
+
+    if (collector == nullptr) {
+        throw std::invalid_argument("Conditional Block id " + std::string(id) + ") received null collector block pointer.");
+    }
+
     if (CommandMonitorBlock* casted_collector = dynamic_cast<CommandMonitorBlock*>(collector)) {
         this->collected_data = casted_collector->output->to_list();
     }
@@ -21,9 +25,7 @@ ConditionalMonitorBlock::ConditionalMonitorBlock(const char* id,const char* para
     else {
         throw std::invalid_argument("Unsupported collector block type received in conditional block.");
     }
-
 };
-
 
 ConditionalMonitorBlock::~ConditionalMonitorBlock() {
     delete this->parameters;

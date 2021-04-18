@@ -14,8 +14,8 @@
     #include "../../include/rapidjson/error/en.h"
 #endif
 
-enum _block_type {trigger,collector,condition,operation,composite};
-enum _output_type {Trigger,JSON,Table,Alert,PerformanceData,UpdateRequest,ClearText};
+enum class _block_type {trigger,collector,condition,operation,composite};
+enum class _output_type {Trigger,JSON,Table,Alert,PerformanceData,UpdateRequest,ClearText};
 
 class MonitorBlock {
     protected:
@@ -23,12 +23,11 @@ class MonitorBlock {
         std::string name;
         _block_type block_type;
         _output_type output_type;
-        int execution_status;
 
         virtual bool execute() = 0;
         virtual void handle_exceptions(const std::exception e) = 0;
         rapidjson::Document* parse_json(const char*);
 
     public:
-        void run_block();
+        bool run_block();
 };

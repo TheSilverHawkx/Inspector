@@ -15,7 +15,7 @@ bool SimpleEvaluationBlock::execute() {
     {
         throw;
     }
-}
+};
 
 void SimpleEvaluationBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
