@@ -1,12 +1,11 @@
 #include "monitor_block.h"
 
-void MonitorBlock::run_block() {
-    if (this->execute()) {
-        this->execution_status = 0;
+bool MonitorBlock::run_block() {
+    try {
+        return this->execute();
     }
-    else
-    {
-        this->execution_status = 1;
+    catch (std::exception& e){
+        throw;
     }
 };
 

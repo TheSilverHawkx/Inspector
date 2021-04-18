@@ -22,7 +22,7 @@ class ConditionalMonitorBlock : public MonitorBlock {
         virtual void handle_exceptions(const std::exception e);
 
     public:
-        ConditionalMonitorBlock(const char* id,const char* parameters,CollectorMonitorBlock* collector);
+        ConditionalMonitorBlock(const char*,const char*,CollectorMonitorBlock*);
         ~ConditionalMonitorBlock(); 
         
         bool evaluation_status;
