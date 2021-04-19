@@ -26,13 +26,10 @@ int main() {
 
     std::cout << "Running in main.cpp" << std::endl;
 
-    std::map<unsigned int,workflow_item_struct> items_list;
-    items_list.insert(std::pair<unsigned int,workflow_item_struct>(1,workflow_item_struct{"1","1",2,_block_type::collector,"CommandBlock"}));
-    items_list.insert(std::pair<unsigned int,workflow_item_struct>(2,workflow_item_struct{"2","1",0,_block_type::condition,"SimpleEvaluationBlock"}));
+    
+    WorkflowDispatcher* dispatcher = new WorkflowDispatcher((fs::current_path() / "workdir\\workflows.csv").string().c_str());
 
-    WorkflowManager* manager = new WorkflowManager("1",items_list);
-
-    manager->run_workflow();
+    
 }
 
 
