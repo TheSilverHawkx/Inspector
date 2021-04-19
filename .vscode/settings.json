@@ -88,5 +88,6 @@
         "queue": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
-    "C_Cpp.loggingLevel": "Debug"
+    "C_Cpp.loggingLevel": "Debug",
+    "C_Cpp.dimInactiveRegions": true
 }
