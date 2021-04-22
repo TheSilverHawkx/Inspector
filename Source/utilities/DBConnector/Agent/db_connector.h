@@ -8,8 +8,9 @@ extern "C" {
 };
 
 #ifdef _WIN32
+    #include "..\..\MonitorBlockWorkflow\workflow_structures.h"
 #else
-
+    #include "../../MonitorBlockWorkflow/workflow_structures.h"
 #endif
 
 
@@ -29,5 +30,11 @@ class DBConnector {
         ~DBConnector();
 
         std::vector<std::string> get(const char* statement);
+        void set(const char* statement);
         void handle_exception(std::exception& e);
+
+        // Custom Select Queries
+        void get_dispatch_entires(std::vector<dispatcher_entry>& workflows_table);
+        std::vector<workflow_item_struct>get_workflow_items(const char* id);
+        
 };

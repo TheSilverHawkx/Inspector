@@ -16,8 +16,8 @@ void WorkflowManager::run_workflow() {
     // Pull first monitor block from DB. For now mock data
 
 
-    try {
-        workflow_item = new WorkflowItem(1,this->workflow_items[1].block_id, this->workflow_id, this->workflow_items[1].mock_block_type, this->workflow_items[1].mock_block_class);
+    /*try {
+        //workflow_item = new WorkflowItem(1,this->workflow_items[1].block_id, this->workflow_id, this->workflow_items[1].mock_block_type, this->workflow_items[1].mock_block_class);
         previous_item = workflow_item;
 
         if (!workflow_item->run_item()) {
@@ -32,7 +32,7 @@ void WorkflowManager::run_workflow() {
             /// Pull data from DB
             ///
 
-            workflow_item = new WorkflowItem(current_workflows_item->next_id,current_workflows_item->block_id,this->workflow_id,current_workflows_item->mock_block_type,current_workflows_item->mock_block_class,previous_item->monitor_block);
+            //workflow_item = new WorkflowItem(current_workflows_item->next_id,current_workflows_item->block_id,this->workflow_id,current_workflows_item->mock_block_type,current_workflows_item->mock_block_class,previous_item->monitor_block);
             delete previous_item;
 
             if (!workflow_item->run_item()){
@@ -56,5 +56,5 @@ void WorkflowManager::run_workflow() {
         std::cout << e.what() << std::endl;
         delete workflow_item;
         delete previous_item;
-    }
+    }*/
 }

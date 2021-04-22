@@ -4,8 +4,10 @@
 
 #ifdef _WIN32
     #include "..\Item\workflow_item.h"
+    #include "..\workflow_structures.h"
 #else
     #include "../Item/workflow_item.h"
+    #include "../workflow_structures.h"
 #endif
 
 class WorkflowManager {
