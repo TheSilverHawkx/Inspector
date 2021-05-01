@@ -18,3 +18,7 @@ bool CollectorMonitorBlock::execute() {
 };
 
 void CollectorMonitorBlock::handle_exceptions(const std::exception e) {};
+
+rapidjson::Document* CollectorMonitorBlock::get_parameters() {
+    return this->parameters;
+}

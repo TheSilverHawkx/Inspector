@@ -41,18 +41,18 @@ struct dispatcher_time_struct {
 };
 
 struct dispatcher_entry {
-    const unsigned char* trigger_id;
-    const unsigned char* workflow_id;
-    dispatcher_time_struct parameter;
+    std::string trigger_id;
+    std::string workflow_id;
+    dispatcher_time_struct time_struct;
 };
 
 struct workflow_item_struct {
     unsigned int id;
-    const unsigned char* block_id;
+    std::string block_id;
     unsigned int next_id;
 
     _block_type block_type;
-    const char* block_class;
-    const char* parameters;
+    std::string block_class;
+    std::string parameters;
 
 };

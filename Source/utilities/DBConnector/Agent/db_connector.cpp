@@ -105,7 +105,7 @@ std::vector<std::string> DBConnector::get(const char* statement) {
 }
 
 
-void DBConnector::set(const char* statement) {
+void DBConnector::set(std::vector<char>& statement) {
     int rc;
     char* err_msg {0};
 
@@ -117,15 +117,15 @@ void DBConnector::set(const char* statement) {
 
     sqlite3_stmt* stm {nullptr};
     
-    //rc = sqlite3_prepare_v2(this->db_con,"INSERT INTO DISPATCH_TABLE(ID,Workflow_ID,Parameters) VALUES (\"one\",\"one\",?);",-1,&stm,NULL);
-    rc = sqlite3_prepare_v2(this->db_con,"update Monitor_Blocks SET Parameters = ? WHERE ID = 'bash_script';",-1,&stm,NULL);
+    rc = sqlite3_prepare_v2(this->db_con,"INSERT INTO DISPATCH_TABLE(ID,Workflow_ID,Parameters) VALUES (\"two\",\"two\",?);",-1,&stm,NULL);
+    //rc = sqlite3_prepare_v2(this->db_con,"update Monitor_Blocks SET Parameters = ? WHERE ID = 'bash_script';",-1,&stm,NULL);
 
     if (rc) {
         const char* err_msg1 = sqlite3_errmsg(this->db_con);
         throw std::runtime_error("Error preparing commit statement. Details: "+ std::string(sqlite3_errmsg(this->db_con)));
     }
     
-    rc = sqlite3_bind_blob(stm,1,statement,strlen(statement),SQLITE_STATIC);
+    rc = sqlite3_bind_blob(stm,1,statement.data(),statement.size(),SQLITE_STATIC);
 
     if (rc) {
         throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
@@ -146,7 +146,8 @@ void DBConnector::set(const char* statement) {
 
 }
 
-void DBConnector::get_dispatch_entires(std::vector<dispatcher_entry>& entries) {
+std::vector<dispatcher_entry> DBConnector::get_dispatch_entires() {
+    std::vector<dispatcher_entry> entries;
     int rc;
     sqlite3_stmt* preped_statement = this->prepare_statement("SELECT ID,Workflow_ID,Parameters FROM DISPATCH_TABLE;");
 
@@ -160,23 +161,21 @@ void DBConnector::get_dispatch_entires(std::vector<dispatcher_entry>& entries) {
     
     while ( rc != SQLITE_DONE) {
         dispatcher_entry entry;
-        dispatcher_time_struct time_struct;
 
-        entry.trigger_id = sqlite3_column_text(preped_statement,0);
-        entry.workflow_id = sqlite3_column_text(preped_statement,1);
-        const char* blob_content = static_cast<const char*>(sqlite3_column_blob(preped_statement,2));
-
+        entry.trigger_id = (const char*)sqlite3_column_text(preped_statement,0);
+        entry.workflow_id= (const char*)sqlite3_column_text(preped_statement,1);
+        
         std::stringstream ss;
-        ss.str(blob_content);
-        time_struct.deserialize(ss);
+        ss.write((char *)sqlite3_column_blob(preped_statement,2),sqlite3_column_bytes(preped_statement,2));
+        entry.time_struct.deserialize(ss);
 
-        entry.parameter = time_struct;
         entries.push_back(entry);
-
         rc = sqlite3_step(preped_statement);
     }
 
     sqlite3_finalize(preped_statement);
+
+    return entries;
 }
 
 std::vector<workflow_item_struct> DBConnector::get_workflow_items(const char* id) {
@@ -184,10 +183,11 @@ std::vector<workflow_item_struct> DBConnector::get_workflow_items(const char* id
     
     int rc;
 
-    std::string query {"SELECT wi.id,wi.Block_ID,wi.Next_Item_ID,mb.Block_Type,mb.Block_Class,mb.Parameters FROM  Workflow_Items wi INNER JOIN Monitor_Blocks mb on mb.ID= wi.Block_ID WHERE wi.Workflow_ID = "};
-    query.append(id).append(";");
+    sqlite3_stmt* preped_statement = this->prepare_statement("SELECT wi.id,wi.Block_ID,wi.Next_Item_ID,mb.Block_Type,mb.Block_Class,mb.Parameters FROM  Workflow_Items wi INNER JOIN Monitor_Blocks mb on mb.ID= wi.Block_ID WHERE wi.Workflow_ID = ?;");
 
-    sqlite3_stmt* preped_statement = this->prepare_statement(query.c_str());
+    if (sqlite3_bind_text(preped_statement,1,id,strlen(id),SQLITE_STATIC)){
+        throw std::runtime_error("Error binding id. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
 
     rc = sqlite3_step(preped_statement);
     if (rc != SQLITE_ROW && rc != SQLITE_DONE) {
@@ -200,12 +200,13 @@ std::vector<workflow_item_struct> DBConnector::get_workflow_items(const char* id
         workflow_item_struct item;
 
         item.id = sqlite3_column_int(preped_statement,0);
-        item.block_id = sqlite3_column_text(preped_statement,1);
+        item.block_id = (const char*)sqlite3_column_text(preped_statement,1);
         item.next_id =  sqlite3_column_int(preped_statement,2);
         item.block_type = (_block_type)sqlite3_column_int(preped_statement,3);
-        item.block_class = reinterpret_cast<const char*>(sqlite3_column_text(preped_statement,4));
-        item.parameters = reinterpret_cast<const char*>(sqlite3_column_blob(preped_statement,5));
+        item.block_class = (const char*)(sqlite3_column_text(preped_statement,4));
+        item.parameters = (const char*)(sqlite3_column_blob(preped_statement,5));
 
+        items.push_back(item);
         rc = sqlite3_step(preped_statement);
     }
 
@@ -213,3 +214,113 @@ std::vector<workflow_item_struct> DBConnector::get_workflow_items(const char* id
     return items;
 }
 
+void DBConnector::add_dispatch_entry(const char* id,const char* workflow_id,std::vector<char>& parameters) {
+    int rc;
+    char* err_msg {0};
+
+    rc = sqlite3_exec(this->db_con,"BEGIN TRANSACTION;",NULL,NULL,&err_msg);
+
+    if (rc) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+
+    sqlite3_stmt* stm {nullptr};
+    
+    std::string statement {"INSERT INTO DISPATCH_TABLE(ID,Workflow_ID,Parameters) VALUES (?,?,?);"};
+
+    if (sqlite3_prepare_v2(this->db_con,statement.c_str(),-1,&stm,NULL)) {
+        throw std::runtime_error("Error preparing commit statement. Details: "+ std::string(sqlite3_errmsg(this->db_con)));
+    }
+    
+    if (sqlite3_bind_text(stm,1,id,strlen(id),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding id. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_blob(stm,2,workflow_id,strlen(workflow_id),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding workflow_id. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_blob(stm,3,parameters.data(),parameters.size(),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+
+    rc = sqlite3_step(stm);
+
+    if (rc != SQLITE_DONE) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+    sqlite3_finalize(stm);
+
+    rc = sqlite3_exec(this->db_con,"END TRANSACTION;",NULL,NULL,&err_msg);
+
+    if (rc) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+}
+
+void DBConnector::add_monitorblock_entry(const char* id,const char* workflow_id, MonitorBlock* block) {
+    int rc;
+    char* err_msg {0};
+    std::string class_name {};
+    std::string parameters {};
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+
+    if (CommandMonitorBlock* casted_block = dynamic_cast<CommandMonitorBlock*>(block)) {
+        class_name = "CommandMonitorBlock";
+        casted_block->get_parameters()->Accept(writer);
+        parameters = buffer.GetString();
+    }
+    else if (ScriptMonitorBlock* casted_block = dynamic_cast<ScriptMonitorBlock*>(block)) {
+        class_name = "ScriptMonitorBlock";
+        casted_block->get_parameters()->Accept(writer);
+        parameters = buffer.GetString();
+    }
+    #ifdef _WIN32
+    else if (WMIMonitorBlock* casted_block = dynamic_cast<WMIMonitorBlock*>(block)) {
+        class_name = "WMIMonitorBlock";
+        casted_block->get_parameters()->Accept(writer);
+        parameters = buffer.GetString();
+    }
+    #endif
+
+    rc = sqlite3_exec(this->db_con,"BEGIN TRANSACTION;",NULL,NULL,&err_msg);
+
+    if (rc) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+
+    sqlite3_stmt* stm {nullptr};
+    
+    std::string statement {"INSERT INTO Monitor_Blocks(ID,Workflow_ID,Block_Type,Block_Class,Parameters) VALUES (?,?,?,?,?);"};
+
+    if (sqlite3_prepare_v2(this->db_con,statement.c_str(),-1,&stm,NULL)) {
+        throw std::runtime_error("Error preparing commit statement. Details: "+ std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_text(stm,1,id,strlen(id),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding id. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_text(stm,2,workflow_id,strlen(workflow_id),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding workflow_id. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_int(stm,3,(int)block->block_type)) {
+        throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_text(stm,4,class_name.c_str(),class_name.size(),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_blob(stm,5,parameters.data(),parameters.size(),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+
+    rc = sqlite3_step(stm);
+
+    if (rc != SQLITE_DONE) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+    sqlite3_finalize(stm);
+
+    rc = sqlite3_exec(this->db_con,"END TRANSACTION;",NULL,NULL,&err_msg);
+
+    if (rc) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+}

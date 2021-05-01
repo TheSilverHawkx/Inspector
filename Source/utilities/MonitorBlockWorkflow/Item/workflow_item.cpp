@@ -7,28 +7,28 @@ WorkflowItem::WorkflowItem(workflow_item_struct info,MonitorBlock* previous_moni
         // Script Bash
         //const char* json_sh = "{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}";
         //Script Powershell
-        const char* json_ps = "{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\" Get-Content 'C:\\\\Users\\\\omerr\\\\OneDrive\\\\Desktop\\\\yeet1.txt'\"}";
+        //const char* json_ps = "{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\" Get-Content 'C:\\\\Users\\\\omerr\\\\OneDrive\\\\Desktop\\\\yeet1.txt'\"}";
         // Script Batch
         //const char* json_bat = "{\"script_language\":\"batch\",\"script_parameters\":\"1 2 3\",\"script_code\":\"echo bat1\\necho bat2\"}";
         // WMI
-        const char* json_wmi = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
+        //const char* json_wmi = "{\"namespace\":\"root\\\\cimv2\",\"query\":\"select * from win32_service where Name like '%plugplay%'\",\"target\":\"localhost\"}";
         // Command Windows
-        const char* command = "{\"commandline\":\"sc query plugplay\"}";
+        //const char* command = "{\"commandline\":\"sc query plugplay\"}";
         // Command Linux
         //const char* command = "{\"commandline\":\"/bin/bash -c 'echo hello'\"}";
         
 
-        if (strcmp(info.block_class,"CommandBlock")) {
-            this->monitor_block = new CommandMonitorBlock("123","mock_command_block",command);
+        if (info.block_class.compare("CommandMonitorBlock") == 0) {
+            this->monitor_block = new CommandMonitorBlock("123","mock_command_block",info.parameters.c_str());
         }
-        else if (info.block_class == "ScriptBlock") {
-            this->monitor_block = new ScriptMonitorBlock("123","mock_script_block",json_ps);
+        else if (info.block_class.compare("ScriptMonitorBlock") == 0) {
+            this->monitor_block = new ScriptMonitorBlock("123","mock_script_block",info.parameters.c_str());
         }
-        else if (info.block_class == "WMIMonitorBlock") {
-            this->monitor_block = new WMIMonitorBlock("123","mock_WMI_block",json_wmi);
+        else if (info.block_class.compare("WMIMonitorBlock") == 0) {
+            this->monitor_block = new WMIMonitorBlock("123","mock_WMI_block",info.parameters.c_str());
         }
         else {
-            throw std::runtime_error("Error creating Monitorblock. Unknown block_type.");
+            throw std::runtime_error("Error creating Monitorblock. Unknown block_class.");
         }
 
 

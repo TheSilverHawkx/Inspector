@@ -6,11 +6,13 @@
     #include "..\Utilities\MonitorBlockWorkflow\all_workflows.h"
     #include <cstdio>
     #include "..\Utilities\DBConnector\Agent\db_connector.h"
+    #include "..\Utilities\Exceptions.h"
 #else
     #include "../../include/rapidjson/document.h"
     #include "../Monitor-Blocks/all_monitor_blocks.h"
     #include "../Utilities/MonitorBlockWorkflow/all_workflows.h"
     #include "../Utilities/DBConnector/Agent/db_connector.h"
+    #include "../Utilities/Exceptions.h"
 
 #endif
 
@@ -37,16 +39,31 @@ int main() {
     std::cout << "Running in main.cpp" << std::endl;
     // Playground
 
-    
     WorkflowDispatcher* dispatcher = new WorkflowDispatcher((fs::current_path() / "workdir\\workflows.csv").string().c_str(),db_con);
 
+    while (dispatcher->is_running){
+        std::this_thread::sleep_for(std::chrono::seconds(10));
+    }
 
-    //db_con->set("{\"script_language\":\"bash\",\"script_parameters\":\"1 2 3\",\"script_code\":\"#!/bin/bash\\n\\nfor i in `ls`; do\\necho $i\\ndone\"}");
+    /* Serialize dispatcher_time_struct to db
+    dispatcher_time_struct a {10,999,999,999,999,999};
+    std::stringstream kuki;
+    a.serialize(kuki);
 
-/*
-    dispatcher_time_struct time {1,2,3,4,5,6};
-    dispatcher_entry kaki {1,2,time,3};
-    dispatcher->add_entry(kaki);*/
+    dispatcher_time_struct bb;
+
+    bb.deserialize(kuki);
+
+    std::vector<char> shuki;
+    std::string& shuki2 = kuki.str();
+    
+    for (int i = 0; i < shuki2.size(); i++)
+    {
+        shuki.push_back(shuki2[i]);
+    }
+    
+    db_con->add_dispatch_entry("one","mock_workflow",shuki);
+    */
 }
 
 

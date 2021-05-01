@@ -17,5 +17,6 @@ class CollectorMonitorBlock : public MonitorBlock {
 
     public:
         CollectorMonitorBlock(const char* id,const char* name,const char* parameters,_output_type output_type);
-        ~CollectorMonitorBlock(); 
+        ~CollectorMonitorBlock();
+        rapidjson::Document* get_parameters();
 };

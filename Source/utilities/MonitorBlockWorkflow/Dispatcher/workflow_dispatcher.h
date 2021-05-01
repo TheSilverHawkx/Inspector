@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <thread>
+#include <map>
 
 
 #ifdef _WIN32
@@ -28,6 +29,7 @@ class WorkflowDispatcher {
         void start();
 
     public:
+        bool is_running {true};
         WorkflowDispatcher(const char* path, DBConnector* connector);
         ~WorkflowDispatcher(); 
 
