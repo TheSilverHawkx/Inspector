@@ -89,7 +89,4 @@ void WorkflowDispatcher::create_workflow(dispatcher_entry* entry) {
 void WorkflowDispatcher::add_entry(dispatcher_entry& entry) {
     std::stringstream parameter;
     entry.time_struct.serialize(parameter);
-
-    //std::string statement {"INSERT INTO DISPATCH_TABLE(ID,Workflow_ID,Parameters) VALUES (\"one\",\"one\",\"" + parameter.str() + std::string("\");")};
-    //this->db_con->set(parameter.str().c_str());
 }

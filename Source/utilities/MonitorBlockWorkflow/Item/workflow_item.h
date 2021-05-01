@@ -16,7 +16,7 @@ class WorkflowItem {
     private:
         workflow_item_struct info;
     public:
-        WorkflowItem(workflow_item_struct info,MonitorBlock* previous_monitor_block = nullptr);
+        WorkflowItem(workflow_item_struct info,WorkflowItem* previous_workflow_item = nullptr);
         ~WorkflowItem(); 
 
         MonitorBlock* monitor_block;
