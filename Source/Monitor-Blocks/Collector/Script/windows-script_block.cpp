@@ -66,6 +66,7 @@ bool ScriptMonitorBlock::execute() {
         this->handle_exceptions(e);
         return false;
     }
+
 };
 
 void ScriptMonitorBlock::handle_exceptions(const std::exception e) {

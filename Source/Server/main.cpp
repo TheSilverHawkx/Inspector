@@ -1,15 +1,18 @@
 #ifdef _WIN32
     #include "..\Monitor-Blocks\all_monitor_blocks.h"
     #include "..\..\include\rapidjson\document.h"
+    #include "..\..\include\rapidjson\writer.h"
     #include "..\utilities\condition_parser.h"
     #include "..\Utilities\MonitorBlockWorkflow\all_workflows.h"
     #include <cstdio>
     #include "..\Utilities\DBConnector\Agent\db_connector.h"
+    #include "..\Utilities\Exceptions.h"
 #else
     #include "../../include/rapidjson/document.h"
     #include "../Monitor-Blocks/all_monitor_blocks.h"
     #include "../Utilities/MonitorBlockWorkflow/all_workflows.h"
     #include "../Utilities/DBConnector/Agent/db_connector.h"
+    #include "../Utilities/Exceptions.h"
 
 #endif
 
@@ -19,28 +22,48 @@
 #include <filesystem>
 #include <vector>
 
+#include <sstream>
+
 namespace fs = std::filesystem;
 
-static DBConnector* db_con;
 
 int main() {
+    // Initialize Work Folder
     const std::string work_directory_path = fs::current_path().string();
     fs::create_directory("workdir");
     fs::permissions("workdir",fs::perms::others_all, fs::perm_options::remove);
 
-    db_con = new DBConnector((fs::current_path() / "workdir\\agent.db").string().c_str());
-
-    db_con->get("SELECT * FROM Monitors");
+    // Initialize DB
+    DBConnector* db_con = new DBConnector((fs::current_path() / "workdir\\agent.db").string().c_str());
 
     std::cout << "Running in main.cpp" << std::endl;
+    // Playground
 
-    std::map<unsigned int,workflow_item_struct> items_list;
-    items_list.insert(std::pair<unsigned int,workflow_item_struct>(1,workflow_item_struct{"1","1",2,_block_type::collector,"CommandBlock"}));
-    items_list.insert(std::pair<unsigned int,workflow_item_struct>(2,workflow_item_struct{"2","1",0,_block_type::condition,"SimpleEvaluationBlock"}));
+    WorkflowDispatcher* dispatcher = new WorkflowDispatcher((fs::current_path() / "workdir\\workflows.csv").string().c_str(),db_con);
 
-    WorkflowManager* manager = new WorkflowManager("1",items_list);
+    while (dispatcher->is_running){
+        std::this_thread::sleep_for(std::chrono::seconds(10));
+    }
 
-    manager->run_workflow();
+    /* Serialize dispatcher_time_struct to db
+    dispatcher_time_struct a {10,999,999,999,999,999};
+    std::stringstream kuki;
+    a.serialize(kuki);
+
+    dispatcher_time_struct bb;
+
+    bb.deserialize(kuki);
+
+    std::vector<char> shuki;
+    std::string& shuki2 = kuki.str();
+    
+    for (int i = 0; i < shuki2.size(); i++)
+    {
+        shuki.push_back(shuki2[i]);
+    }
+    
+    db_con->add_dispatch_entry("one","mock_workflow",shuki);
+    */
 }
 
 

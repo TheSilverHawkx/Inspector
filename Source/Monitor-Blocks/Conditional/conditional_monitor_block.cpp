@@ -10,7 +10,6 @@ ConditionalMonitorBlock::ConditionalMonitorBlock(const char* id,const char* para
     if (collector == nullptr) {
         throw std::invalid_argument("Conditional Block id " + std::string(id) + ") received null collector block pointer.");
     }
-
     if (CommandMonitorBlock* casted_collector = dynamic_cast<CommandMonitorBlock*>(collector)) {
         this->collected_data = casted_collector->output->to_list();
     }

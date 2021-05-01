@@ -24,6 +24,7 @@
 				"${workspaceFolder}/Source/Monitor-Blocks/Conditional//SimpleEvaluation/*.cpp",
 				"${workspaceFolder}/Source/Utilities/MonitorBlockWorkflow/Item/*.cpp",
 				"${workspaceFolder}/Source/Utilities/MonitorBlockWorkflow/Manager/*.cpp",
+				"${workspaceFolder}/Source/Utilities/MonitorBlockWorkflow/Dispatcher/*.cpp",
 				"-o",
 				"${workspaceFolder}/bin/main"
 			],
@@ -60,7 +61,7 @@
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Conditional\\SimpleEvaluation\\*.cpp",
 				"${workspaceFolder}\\Source\\Utilities\\MonitorBlockWorkflow\\Item\\*.cpp",
 				"${workspaceFolder}\\Source\\Utilities\\MonitorBlockWorkflow\\Manager\\*.cpp",
-				
+				"${workspaceFolder}\\Source\\Utilities\\MonitorBlockWorkflow\\Dispatcher\\*.cpp",
 			],
 			"problemMatcher": [
 				"$msCompile"
