@@ -25,9 +25,11 @@ WorkflowItem::WorkflowItem(workflow_item_struct info,WorkflowItem* previous_work
         else if (info.block_class.compare("ScriptMonitorBlock") == 0) {
             this->monitor_block = new ScriptMonitorBlock(info.block_id.c_str(),"mock_script_block",info.parameters.c_str());
         }
+        #ifdef _WIN32
         else if (info.block_class.compare("WMIMonitorBlock") == 0) {
             this->monitor_block = new WMIMonitorBlock(info.block_id.c_str(),"mock_WMI_block",info.parameters.c_str());
         }
+        #endif
         else {
             throw inspector::MonitorBlockException(info.block_id.c_str(),"Error creating Monitorblock. Unknown block class found.");
         }

@@ -20,6 +20,7 @@
     #include "../../../../include/rapidjson/writer.h"
     #include "../../../../include/rapidjson/stringbuffer.h"
     #include "../../../Monitor-Blocks/all_monitor_blocks.h
+    #include <cstring>
 #endif
 
 
