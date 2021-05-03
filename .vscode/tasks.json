@@ -11,9 +11,9 @@
 				"-pthread",
 				"-I",
 				"${workspaceFolder}/include",
+				"-L${workspaceFolder}/include/SQLite/linux/",
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
-				"${workspaceFolder}/include/SQLite/sqlite3.a",
 				"${workspaceFolder}/Source/utilities/DBConnector/Agent/db_connector.cpp",
 				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"${workspaceFolder}/Source/utilities/condition_parser.cpp",
@@ -27,7 +27,10 @@
 				"${workspaceFolder}/Source/utilities/MonitorBlockWorkflow/Manager/*.cpp",
 				"${workspaceFolder}/Source/utilities/MonitorBlockWorkflow/Dispatcher/*.cpp",
 				"-o",
-				"${workspaceFolder}/bin/main"
+				"${workspaceFolder}/bin/main",
+				"-lsqlite",
+				"-ldl",
+				"-lm",
 			],
 			"options": {
 				"cwd": "/usr/bin"
