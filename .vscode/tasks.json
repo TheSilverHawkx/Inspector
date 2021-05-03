@@ -10,12 +10,21 @@
 				"-std=c++17",
 				"-I",
 				"${workspaceFolder}/include",
+				"-L",
+				"${workspaceFolder}/include",
+				"-lsqlite3",
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
+<<<<<<< Updated upstream
 				"${workspaceFolder}/include/SQLite/sqlite3.c",
 				"${workspaceFolder}/Source/Utilities/DBConnector/Agent/db_connector.cpp",
 				"${workspaceFolder}/Source/Utilities/linux-*.cpp",
 				"${workspaceFolder}/Source/Utilities/condition_parser.cpp",
+=======
+				"${workspaceFolder}/Source/utilities/DBConnector/Agent/db_connector.cpp",
+				"${workspaceFolder}/Source/utilities/linux-*.cpp",
+				"${workspaceFolder}/Source/utilities/condition_parser.cpp",
+>>>>>>> Stashed changes
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/collector_monitor_block.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Command/linux-*.cpp",
