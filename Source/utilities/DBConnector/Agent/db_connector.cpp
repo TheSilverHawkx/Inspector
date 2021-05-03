@@ -121,7 +121,7 @@ void DBConnector::set(std::vector<char>& statement) {
     //rc = sqlite3_prepare_v2(this->db_con,"update Monitor_Blocks SET Parameters = ? WHERE ID = 'bash_script';",-1,&stm,NULL);
 
     if (rc) {
-        const char* err_msg1 = sqlite3_errmsg(this->db_con);
+        //const char* err_msg1 = sqlite3_errmsg(this->db_con);
         throw std::runtime_error("Error preparing commit statement. Details: "+ std::string(sqlite3_errmsg(this->db_con)));
     }
     

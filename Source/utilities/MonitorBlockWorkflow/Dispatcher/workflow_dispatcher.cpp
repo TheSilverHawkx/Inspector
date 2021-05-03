@@ -37,9 +37,9 @@ void WorkflowDispatcher::start() {
         for (std::vector<dispatcher_entry>::iterator it= this->workflows_table.begin(); it != this->workflows_table.end();++it){
 
             // Check week of month
-            if (it->time_struct.week_of_month == 999 || (time_struct->tm_mday / 7) == it->time_struct.week_of_month){
+            if (it->time_struct.week_of_month == 999 || (time_struct->tm_mday / 7) == (int)it->time_struct.week_of_month){
                 // Check day of week
-                if (it->time_struct.day_of_week == 999 ||(time_struct->tm_wday + 1) == it->time_struct.day_of_week) {
+                if (it->time_struct.day_of_week == 999 ||(time_struct->tm_wday + 1) == (int)it->time_struct.day_of_week) {
                     // Check "every [] day"
                     if (it->time_struct.days == 999 ||time_struct->tm_mday % it->time_struct.days == 0) {
                         // Check "every [] hours"

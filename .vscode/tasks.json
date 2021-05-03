@@ -14,6 +14,7 @@
 				"-L${workspaceFolder}/include/SQLite/linux/",
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
+				"${workspaceFolder}/include/SQLite/linux/sqlite3.o",
 				"${workspaceFolder}/Source/utilities/DBConnector/Agent/db_connector.cpp",
 				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"${workspaceFolder}/Source/utilities/condition_parser.cpp",
@@ -28,9 +29,9 @@
 				"${workspaceFolder}/Source/utilities/MonitorBlockWorkflow/Dispatcher/*.cpp",
 				"-o",
 				"${workspaceFolder}/bin/main",
-				"-lsqlite",
 				"-ldl",
 				"-lm",
+				//"-lsqlite",
 			],
 			"options": {
 				"cwd": "/usr/bin"
