@@ -14,7 +14,8 @@
     #include "..\workflow_structures.h"
 #else
     #include "../Manager/workflows_manager.h"
-    #include "..\workflow_structures.h"
+    #include "../workflow_structures.h"
+    #include "../../DBConnector/Agent/db_connector.h"
 #endif
 
 

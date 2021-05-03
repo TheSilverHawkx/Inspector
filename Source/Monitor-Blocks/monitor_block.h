@@ -13,7 +13,7 @@
 #else
     #include "../../include/rapidjson/document.h"
     #include "../../include/rapidjson/error/en.h"
-    #include "../Utilities/Exceptions.h"
+    #include "../utilities/Exceptions.h"
 #endif
 
 enum class _block_type {trigger =1,collector = 2,condition = 3,operation = 4,composite = 5};
@@ -33,4 +33,5 @@ class MonitorBlock {
         _block_type block_type;
     
         bool run_block();
+        
 };

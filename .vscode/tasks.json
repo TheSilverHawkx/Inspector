@@ -8,41 +8,41 @@
 			"args": [
 				"-Wall",
 				"-std=c++17",
+				"-pthread",
 				"-I",
 				"${workspaceFolder}/include",
-				"-L",
-				"${workspaceFolder}/include",
-				"-lsqlite3",
+				"-L${workspaceFolder}/include/SQLite/linux/",
 				"-g",
 				"${workspaceFolder}/Source/Server/main.cpp",
-<<<<<<< Updated upstream
-				"${workspaceFolder}/include/SQLite/sqlite3.c",
-				"${workspaceFolder}/Source/Utilities/DBConnector/Agent/db_connector.cpp",
-				"${workspaceFolder}/Source/Utilities/linux-*.cpp",
-				"${workspaceFolder}/Source/Utilities/condition_parser.cpp",
-=======
+				"${workspaceFolder}/include/SQLite/linux/sqlite3.o",
 				"${workspaceFolder}/Source/utilities/DBConnector/Agent/db_connector.cpp",
 				"${workspaceFolder}/Source/utilities/linux-*.cpp",
 				"${workspaceFolder}/Source/utilities/condition_parser.cpp",
->>>>>>> Stashed changes
 				"${workspaceFolder}/Source/Monitor-Blocks/*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/collector_monitor_block.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Command/linux-*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Collector/Script/linux-*.cpp",
 				"${workspaceFolder}/Source//Monitor-Blocks/Conditional/*.cpp",
 				"${workspaceFolder}/Source/Monitor-Blocks/Conditional//SimpleEvaluation/*.cpp",
-				"${workspaceFolder}/Source/Utilities/MonitorBlockWorkflow/Item/*.cpp",
-				"${workspaceFolder}/Source/Utilities/MonitorBlockWorkflow/Manager/*.cpp",
-				"${workspaceFolder}/Source/Utilities/MonitorBlockWorkflow/Dispatcher/*.cpp",
+				"${workspaceFolder}/Source/utilities/MonitorBlockWorkflow/Item/*.cpp",
+				"${workspaceFolder}/Source/utilities/MonitorBlockWorkflow/Manager/*.cpp",
+				"${workspaceFolder}/Source/utilities/MonitorBlockWorkflow/Dispatcher/*.cpp",
 				"-o",
-				"${workspaceFolder}/bin/main"
+				"${workspaceFolder}/bin/main",
+				"-ldl",
+				"-lm",
+				//"-lsqlite",
 			],
 			"options": {
 				"cwd": "/usr/bin"
 			},
 			"problemMatcher": [
 				"$gcc"
-			]
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 
 		},
 		{
@@ -58,9 +58,9 @@
 				"${workspaceFolder}\\bin\\main.exe",
 				"${workspaceFolder}\\Source\\Server\\main.cpp",
 				"${workspaceFolder}\\include\\SQLite\\sqlite3.c",
-				"${workspaceFolder}\\Source\\Utilities\\DBConnector\\Agent\\db_connector.cpp",
-				"${workspaceFolder}\\Source\\Utilities\\windows-*.cpp",
-				"${workspaceFolder}\\Source\\Utilities\\condition_parser.cpp",
+				"${workspaceFolder}\\Source\\utilities\\DBConnector\\Agent\\db_connector.cpp",
+				"${workspaceFolder}\\Source\\utilities\\windows-*.cpp",
+				"${workspaceFolder}\\Source\\utilities\\condition_parser.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\*.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\collector_monitor_block.cpp",
 				"${workspaceFolder}\\Source\\Monitor-Blocks\\Collector\\WMI\\windows-*.cpp",
@@ -78,10 +78,7 @@
 			"options": {
 				"cwd": "${workspaceFolder}\\compile folder"
 			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			
 		}
 	]
 }

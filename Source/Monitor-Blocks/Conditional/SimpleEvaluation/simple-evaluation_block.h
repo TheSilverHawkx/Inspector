@@ -12,6 +12,6 @@ class SimpleEvaluationBlock : public ConditionalMonitorBlock {
         void handle_exceptions(const std::exception e);
 
     public:
-        SimpleEvaluationBlock(const char*,const char*,CollectorMonitorBlock*);
+        SimpleEvaluationBlock(const char*id,const char*parameters,CollectorMonitorBlock*);
         ~SimpleEvaluationBlock(); 
 };
