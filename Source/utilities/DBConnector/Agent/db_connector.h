@@ -3,13 +3,17 @@
 #include <filesystem>
 #include <vector>
 
-extern "C" {
-    #include "..\..\..\..\include\SQLite\sqlite3.h"
-};
 
 #ifdef _WIN32
+    extern "C" {
+        #include "..\..\..\..\include\SQLite\sqlite3.h"
+    };
 #else
+    extern "C" {
+        #include "../../../../include/SQLite/sqlite3.h"
+    };
 
+    #include <cstring>
 #endif
 
 

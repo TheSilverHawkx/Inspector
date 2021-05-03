@@ -26,9 +26,11 @@ WorkflowItem::WorkflowItem(unsigned int item_id,const char* block_id,const char*
         else if (mock_class == "ScriptBlock") {
             this->monitor_block = new ScriptMonitorBlock("123","mock_script_block",json_ps);
         }
+        #ifdef _WIN32
         else if (mock_class == "WMIMonitorBlock") {
             this->monitor_block = new WMIMonitorBlock("123","mock_WMI_block",json_wmi);
         }
+        #endif
         else {
             throw std::runtime_error("Workflows item (id:" + std::to_string(this->item_id) + "): Error creating Monitorblock. Unknown block_type.");
         }

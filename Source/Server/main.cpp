@@ -8,8 +8,8 @@
 #else
     #include "../../include/rapidjson/document.h"
     #include "../Monitor-Blocks/all_monitor_blocks.h"
-    #include "../Utilities/MonitorBlockWorkflow/all_workflows.h"
-    #include "../Utilities/DBConnector/Agent/db_connector.h"
+    #include "../utilities/MonitorBlockWorkflow/all_workflows.h"
+    #include "../utilities/DBConnector/Agent/db_connector.h"
 
 #endif
 

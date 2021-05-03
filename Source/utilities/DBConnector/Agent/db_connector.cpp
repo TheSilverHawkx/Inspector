@@ -65,6 +65,8 @@ sqlite3_stmt* DBConnector::prepare_statement(const char* query) {
         error_msg.append(sqlite3_errmsg(this->db_con));
         throw error_msg;
     }
+
+    return preped_statement;
 }
 
 std::vector<std::string> DBConnector::get(const char* statement) {
