@@ -39,11 +39,7 @@
 			"problemMatcher": [
 				"$gcc"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-
+			
 		},
 		{
 			"type": "shell",
@@ -78,6 +74,10 @@
 			"options": {
 				"cwd": "${workspaceFolder}\\compile folder"
 			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 			
 		}
 	]
