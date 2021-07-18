@@ -47,10 +47,13 @@ struct MonitorBlockOutput
         else if constexpr (std::is_same_v<T,table_output>)
         {
             for (table_output::iterator it=this->data->begin(); it!=this->data->end();++it){
-                for (std::vector<std::string>::iterator it2=it->begin();it2!=it->end();++it2)
+                std::string line = (*it)[0];
+                line.append("=");
+                for (std::vector<std::string>::iterator it2=++(it->begin());it2!=it->end();++it2)
                 {
-                    list.push_back((*it2));
+                    line.append((*it2));
                 }
+                list.push_back(line);
             }
         }
 

@@ -23,4 +23,6 @@ class ConditionalMonitorBlock : public MonitorBlock {
         ~ConditionalMonitorBlock(); 
         
         bool evaluation_status;
+        std::vector<std::string> get_collected_data();
+        
 };

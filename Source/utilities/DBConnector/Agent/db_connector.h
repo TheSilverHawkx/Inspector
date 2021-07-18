@@ -51,6 +51,7 @@ class DBConnector {
         // Custom Insert Queries
         void add_dispatch_entry(const char* id,const char* workflow_id,std::vector<char>& parameters);
         void add_monitorblock_entry(const char* id,const char* workflow_id, MonitorBlock* block);
+        void create_alert(CreateAlertBlock&);
 
         // Custom Select Queries
         std::vector<dispatcher_entry> get_dispatch_entires();
