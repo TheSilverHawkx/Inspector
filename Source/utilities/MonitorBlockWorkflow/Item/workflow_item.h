@@ -3,10 +3,14 @@
 #include <string>
 
 #ifdef _WIN32
-    #include "..\..\..\Monitor-Blocks\all_monitor_blocks.h"
+    #include "..\..\..\Monitor-Blocks\all_collector_blocks.h"
+    #include "..\..\..\Monitor-Blocks\all_condition_blocks.h"
+    #include "..\..\..\Monitor-Blocks\all_action_blocks.h"
     #include "..\workflow_structures.h"
 #else
-    #include "../../../Monitor-Blocks/all_monitor_blocks.h"
+    #include "../../../Monitor-Blocks/all_collector_blocks.h"
+    #include "../../../Monitor-Blocks/all_condition_blocks.h"
+    #include "../../../Monitor-Blocks/all_action_blocks.h"
     #include "../workflow_structures.h"
 #endif
 
