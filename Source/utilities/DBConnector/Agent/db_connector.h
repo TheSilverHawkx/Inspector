@@ -9,15 +9,20 @@
         #include "..\..\..\..\include\SQLite\sqlite3.h"
     };
     #include "..\..\MonitorBlockWorkflow\workflow_structures.h"
-    #include "..\..\..\Monitor-Blocks\all_monitor_blocks.h"
     #include "..\..\..\..\include\rapidjson\writer.h"
     #include "..\..\..\..\include\rapidjson\stringbuffer.h"
+    #include "..\..\..\Monitor-Blocks\all_collector_blocks.h"
+    #include "..\..\..\Monitor-Blocks\all_condition_blocks.h"
+    #include "..\..\..\Monitor-Blocks\all_action_blocks.h"
+
 #else
     extern "C" {
         #include "../../../../include/SQLite/sqlite3.h"
     };
     #include "../../MonitorBlockWorkflow/workflow_structures.h"
-    #include "../../../Monitor-Blocks/all_monitor_blocks.h"
+    #include "../../../Monitor-Blocks/all_collector_blocks.h"
+    #include "../../../Monitor-Blocks/all_condition_blocks.h"
+    #include "../../../Monitor-Blocks/all_action_blocks.h"
     #include "../../../../include/rapidjson/writer.h"
     #include "../../../../include/rapidjson/stringbuffer.h"
     #include <cstring>

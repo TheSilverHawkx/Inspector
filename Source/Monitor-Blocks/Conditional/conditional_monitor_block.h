@@ -3,14 +3,11 @@
 #ifdef _WIN32
     #include "..\monitor_block.h"
     #include "..\..\utilities\condition_parser.h"
-    #include "..\Collector\WMI\windows-wmi_block.h"
-    #include "..\Collector\Script\windows-script_block.h"
-    #include "..\Collector\Command\windows-command_block.h"
+    #include "..\all_collector_blocks.h"
 #else
     #include "../monitor_block.h"
     #include "../../utilities/condition_parser.h"
-    #include "../Collector/Command/linux-command_block.h"
-    #include "../Collector/Script/linux-script_block.h"
+    #include "../all_collector_blocks.h"
 #endif
 
 class ConditionalMonitorBlock : public MonitorBlock {
