@@ -17,7 +17,7 @@
 #endif
 
 enum class _block_type {trigger =1,collector = 2,condition = 3,operation = 4,composite = 5};
-enum class _output_type {Trigger,JSON,Table,Alert,PerformanceData,UpdateRequest,ClearText};
+enum class _output_type {Trigger,JSON,Table,Action,ClearText};
 
 class MonitorBlock {
     protected:

@@ -4,7 +4,7 @@ ConditionalMonitorBlock::ConditionalMonitorBlock(const char* id,const char* para
     this->id = id;
     this->name = "";
     this->parameters = this->parse_json(parameters);
-    this->output_type = output_type;
+    this->output_type = collector->output_type;
     this->evaluation_status = false;
 
     if (collector == nullptr) {
