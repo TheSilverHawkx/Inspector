@@ -1,5 +1,7 @@
 #ifdef _WIN32
-    #include "..\Monitor-Blocks\all_monitor_blocks.h"
+    #include "..\Monitor-Blocks\all_collector_blocks.h"
+    #include "..\Monitor-Blocks\all_condition_blocks.h"
+    #include "..\Monitor-Blocks\all_action_blocks.h"
     #include "..\..\include\rapidjson\document.h"
     #include "..\..\include\rapidjson\writer.h"
     #include "..\utilities\condition_parser.h"
@@ -39,11 +41,19 @@ int main() {
     std::cout << "Running in main.cpp" << std::endl;
     // Playground
 
-    WorkflowDispatcher* dispatcher = new WorkflowDispatcher((fs::current_path() / "workdir\\workflows.csv").string().c_str(),db_con);
+    /*WorkflowDispatcher* dispatcher = new WorkflowDispatcher((fs::current_path() / "workdir\\workflows.csv").string().c_str(),db_con);
 
     while (dispatcher->is_running){
         std::this_thread::sleep_for(std::chrono::seconds(10));
-    }
+    }*/
+
+    ScriptMonitorBlock* script_mb = new ScriptMonitorBlock("1","one","{\"script_language\":\"powershell\",\"script_parameters\":\"1 2 3\",\"script_code\":\" Get-Content 'C:\\\\Users\\\\omerr\\\\OneDrive\\\\Desktop\\\\yeet1.txt'\"}");
+    script_mb->run_block();
+    script_mb->block_type = _block_type::collector;
+
+    LogToFileBlock* ltf_mb = new LogToFileBlock("2","{\"file_path\": \"\",\"mode\": 1,\"text\": {\"template\": \"random text with [var-1] spaces a[var-2]nd stuff\",\"custom_parts\": [{\"name\": \"1\", \"value\": 0},{\"name\": \"2\", \"value\": 1}]}}",script_mb);
+
+    ltf_mb->run_block();
 
     /* Serialize dispatcher_time_struct to db
     dispatcher_time_struct a {10,999,999,999,999,999};

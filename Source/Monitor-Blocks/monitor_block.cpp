@@ -19,6 +19,8 @@ rapidjson::Document* MonitorBlock::parse_json(const char* json) {
         std::string formatted_error = {typeid(this).name()};
         formatted_error.append(": parsing error at ");
         formatted_error.append(std::to_string(doc->GetErrorOffset()));
+        formatted_error.append(std::to_string(json[doc->GetErrorOffset()]));
+
         formatted_error.append(": ");
         formatted_error.append(rapidjson::GetParseError_En(doc->GetParseError()));
         
