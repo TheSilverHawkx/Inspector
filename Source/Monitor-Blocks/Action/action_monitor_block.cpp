@@ -23,8 +23,8 @@ ActionMonitorBlock::ActionMonitorBlock(const char* id,const char* parameters,Mon
         #endif
     }
     else if (block->block_type == _block_type::condition) {
-        if (CommandMonitorBlock* casted_collector = dynamic_cast<CommandMonitorBlock*>(block)) {
-            this->collected_data = casted_collector->output->to_list();
+        if (ConditionalMonitorBlock* casted_condition = dynamic_cast<ConditionalMonitorBlock*>(block)) {
+            this->collected_data = casted_condition->get_collected_data();
         }
     }
     else {

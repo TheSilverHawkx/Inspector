@@ -35,3 +35,8 @@ bool ConditionalMonitorBlock::execute() {
 };
 
 void ConditionalMonitorBlock::handle_exceptions(const std::exception e) {};
+
+
+std::vector<std::string> ConditionalMonitorBlock::get_collected_data() {
+    return this->collected_data;
+}

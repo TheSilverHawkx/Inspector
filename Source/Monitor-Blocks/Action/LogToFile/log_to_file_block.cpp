@@ -41,7 +41,7 @@ bool LogToFileBlock::execute() {
 void LogToFileBlock::handle_exceptions(const std::exception e) {
     std::string caught_exception = e.what();
     std::vector<std::vector<std::string>> error_vector;
-    throw std::runtime_error("Simple Evaluation: " + caught_exception);
+    throw std::runtime_error("LogToFile: " + caught_exception);
 };
 
 void LogToFileBlock::initialize_file(std::string path, _log_mode mode) {

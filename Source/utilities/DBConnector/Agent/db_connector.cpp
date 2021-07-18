@@ -324,3 +324,72 @@ void DBConnector::add_monitorblock_entry(const char* id,const char* workflow_id,
         throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
     }
 }
+
+void DBConnector::create_alert(CreateAlertBlock block) {
+    int rc;
+    char* err_msg {0};
+    std::string class_name {};
+    std::string parameters {};
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+
+    if (CommandMonitorBlock* casted_block = dynamic_cast<CommandMonitorBlock*>(block)) {
+        class_name = "CommandMonitorBlock";
+        casted_block->get_parameters()->Accept(writer);
+        parameters = buffer.GetString();
+    }
+    else if (ScriptMonitorBlock* casted_block = dynamic_cast<ScriptMonitorBlock*>(block)) {
+        class_name = "ScriptMonitorBlock";
+        casted_block->get_parameters()->Accept(writer);
+        parameters = buffer.GetString();
+    }
+    #ifdef _WIN32
+    else if (WMIMonitorBlock* casted_block = dynamic_cast<WMIMonitorBlock*>(block)) {
+        class_name = "WMIMonitorBlock";
+        casted_block->get_parameters()->Accept(writer);
+        parameters = buffer.GetString();
+    }
+    #endif
+
+    rc = sqlite3_exec(this->db_con,"BEGIN TRANSACTION;",NULL,NULL,&err_msg);
+
+    if (rc) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+
+    sqlite3_stmt* stm {nullptr};
+    
+    std::string statement {"INSERT INTO Monitor_Blocks(ID,Workflow_ID,Block_Type,Block_Class,Parameters) VALUES (?,?,?,?,?);"};
+
+    if (sqlite3_prepare_v2(this->db_con,statement.c_str(),-1,&stm,NULL)) {
+        throw std::runtime_error("Error preparing commit statement. Details: "+ std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_text(stm,1,id,strlen(id),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding id. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_text(stm,2,workflow_id,strlen(workflow_id),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding workflow_id. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_int(stm,3,(int)block->block_type)) {
+        throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_text(stm,4,class_name.c_str(),class_name.size(),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+    if (sqlite3_bind_blob(stm,5,parameters.data(),parameters.size(),SQLITE_STATIC)) {
+        throw std::runtime_error("Error binding blob. Details: " + std::string(sqlite3_errmsg(this->db_con)));
+    }
+
+    rc = sqlite3_step(stm);
+
+    if (rc != SQLITE_DONE) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+    sqlite3_finalize(stm);
+
+    rc = sqlite3_exec(this->db_con,"END TRANSACTION;",NULL,NULL,&err_msg);
+
+    if (rc) {
+        throw std::runtime_error("Error commiting to db. Details: " + std::string(err_msg));
+    }
+}
