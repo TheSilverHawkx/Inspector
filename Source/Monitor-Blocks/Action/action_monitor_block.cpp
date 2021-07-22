@@ -60,3 +60,15 @@ std::string ActionMonitorBlock::format_text() {
     }
     return formatted_text;
 }
+
+std::string ActionMonitorBlock::stringify_collected_data() {
+    std::string string_data {};
+
+    for (auto& line : this->collected_data)
+    {
+        string_data.append(line);
+        string_data.append("\n");
+    }
+    
+    return string_data;
+}

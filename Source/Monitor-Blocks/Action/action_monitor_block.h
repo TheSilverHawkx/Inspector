@@ -20,6 +20,7 @@ class ActionMonitorBlock : public MonitorBlock {
         virtual bool execute();
         virtual void handle_exceptions(const std::exception e);
         std::string format_text();
+        std::string ActionMonitorBlock::stringify_collected_data();
 
     public:
         ActionMonitorBlock(const char* id,const char* parameters, MonitorBlock*);
